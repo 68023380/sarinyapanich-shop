@@ -1,5 +1,5 @@
 // api.js ฉบับกลาง ใช้ร่วมกันทุกหน้า Frontend
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = 'https://sarinyapanich-api.onrender.com/api';
 
 async function apiRequest(path, options = {}) {
   const token = localStorage.getItem('accessToken');
