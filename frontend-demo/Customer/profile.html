@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>โปรไฟล์ - ศริณญาพานิช</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .header-bar { max-width: 700px; margin: 2rem auto 1.5rem auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-soft); flex-wrap: wrap; gap: 1rem; }
+    .logo-container { display: flex; align-items: center; gap: 0.8rem; }
+    .store-logo { width: 45px; height: 45px; object-fit: cover; border-radius: 50%; border: 2px solid var(--primary-red); }
+    .nav-actions { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+    .nav-btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-family: 'Kanit', sans-serif; font-weight: 600; font-size: 0.9rem; text-decoration: none; cursor: pointer; transition: all 0.2s; border: none; box-shadow: 0 2px 4px rgba(0,0,0,0.05); min-width: 85px; text-align: center; color: white; }
+    .btn-home { background: var(--primary-red); }
+    .btn-home:hover { opacity: 0.9; }
+    .btn-cart { background: var(--primary-red); }
+    .btn-cart:hover { opacity: 0.9; }
+    .btn-history { background: #475569; }
+    .btn-history:hover { background: #334155; }
+    .profile-container { max-width: 700px; margin: 0 auto 3rem auto; padding: 2.5rem; background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--border-color); box-shadow: var(--shadow-soft); }
+    .avatar-wrapper { position: relative; width: 100px; height: 100px; margin: 0 auto 1.5rem auto; cursor: pointer; }
+    .profile-avatar { width: 100px; height: 100px; background: var(--primary-red); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700; overflow: hidden; border: 3px solid var(--border-color); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-overlay { position: absolute; bottom: 0; right: 0; background: var(--primary-red); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; border: 2px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+    .info-group { margin-bottom: 1.2rem; text-align: left; }
+    .info-group label { display: block; font-weight: 600; margin-bottom: 0.4rem; color: var(--text-dark); font-size: 0.9rem; }
+    .info-value { width: 100%; padding: 0.75rem 1rem; border: 1.5px solid var(--border-color); border-radius: var(--radius-md); font-size: 0.95rem; font-family: 'Kanit', sans-serif; background: #f1f5f9; color: #475569; font-weight: 500; min-height: 45px; display: flex; align-items: center; word-break: break-all; box-sizing: border-box; }
+    .editable-input { background: #fff; color: var(--text-dark); outline: none; }
+    .editable-input:focus { border-color: var(--primary-red); box-shadow: 0 0 0 4px rgba(198,40,40,.1); }
+    .save-profile { width: 100%; margin-top: .4rem; border: 0; cursor: pointer; font-family: 'Kanit', sans-serif; font-size: 1rem; font-weight: 600; }
+    .save-profile:disabled { opacity: .7; cursor: wait; }
+    .crop-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 1rem; }
+    .crop-modal-card { background: white; padding: 2rem; border-radius: var(--radius-lg); max-width: 400px; width: 100%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+    .crop-canvas-container { position: relative; width: 250px; height: 250px; margin: 0 auto 1.2rem auto; border-radius: 50%; overflow: hidden; border: 3px dashed var(--primary-red); background: #000; cursor: grab; }
+    .crop-canvas-container:active { cursor: grabbing; }
+    #cropCanvas { display: block; }
+  </style>
+</head>
+<body>
+  <div class="header-bar">
+    <div class="logo-container">
+      <img src="pic/Logo.webp" alt="โลโก้" class="store-logo" onerror="this.src='Logo.webp'">
+      <h1 style="color:var(--primary-red); font-size:1.3rem; margin:0;">ศริณญาพานิช 🛒</h1>
+    </div>
+    <div class="nav-actions">
+      <a href="index.html" class="nav-btn btn-home">หน้าแรก</a>
+      <a href="cart.html" class="nav-btn btn-cart">ตะกร้า</a>
+      <a href="history.html" class="nav-btn btn-history">ประวัติ</a>
+    </div>
+  </div>
+
+  <div class="profile-container">
+    <div class="avatar-wrapper" onclick="document.getElementById('avatarInput').click()" title="คลิกเพื่อเปลี่ยนรูปโปรไฟล์">
+      <div class="profile-avatar" id="avatarContainer"><span id="avatarInitial">U</span></div>
+      <div class="avatar-overlay">📷</div>
+    </div>
+    <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="initCropper(event)">
+    <h2 style="color:var(--primary-red); margin-bottom:1.5rem; text-align:center;">👤 โปรไฟล์ของคุณ</h2>
+    <div class="info-group"><label>ชื่อผู้ใช้</label><div class="info-value" id="profUsername">-</div></div>
+    <div class="info-group"><label>ชื่อ-นามสกุล</label><input class="info-value editable-input" id="profName" type="text"></div>
+    <div class="info-group"><label>เบอร์โทรศัพท์</label><input class="info-value editable-input" id="profPhone" type="tel" maxlength="10"></div>
+    <div class="info-group"><label>อีเมล</label><input class="info-value editable-input" id="profEmail" type="email"></div>
+    <div class="info-group"><label>ที่อยู่จัดส่ง</label><input class="info-value editable-input" id="profAddress" type="text" placeholder="ใช้สำหรับการจัดส่งถึงบ้าน"></div>
+    <button class="btn-primary save-profile" id="saveProfileButton" onclick="saveProfile()">บันทึกข้อมูล ✓</button>
+    <div style="text-align:center; margin-top:1.2rem;"><button onclick="logout()" style="background:transparent; border:none; color:#ef4444; font-size:0.95rem; cursor:pointer; text-decoration:underline; font-family:'Kanit',sans-serif; font-weight:600;">ออกจากระบบ</button></div>
+  </div>
+
+  <div id="cropModal" class="crop-modal-overlay">
+    <div class="crop-modal-card">
+      <h3 style="color: var(--primary-red); margin-bottom: 0.5rem;">ครอบตัดรูปโปรไฟล์</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">ลากเพื่อเลื่อนตำแหน่งรูปภาพ</p>
+      <div class="crop-canvas-container" id="canvasContainer"><canvas id="cropCanvas" width="250" height="250"></canvas></div>
+      <div style="margin-bottom: 1.2rem;"><label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.3rem;">ซูมภาพ</label><input type="range" id="zoomRange" min="0.5" max="3" step="0.05" value="1" style="width: 100%; accent-color: var(--primary-red);" oninput="onZoomChange(this.value)"></div>
+      <div style="display: flex; gap: 0.8rem;"><button class="btn-primary" style="flex: 1; background: #cbd5e1; color: #334155;" onclick="closeCropModal()">ยกเลิก</button><button class="btn-primary" style="flex: 1;" onclick="saveCroppedImage()">ยืนยัน</button></div>
+    </div>
+  </div>
+
+  <div id="customAlertModal" class="modal-overlay" style="display:none;"><div class="modal-card" style="text-align:center;"><h3 id="alertTitle" style="margin-bottom:0.8rem; color:var(--primary-red);">แจ้งเตือน</h3><p id="alertMessage" style="color:var(--text-dark); margin-bottom:1.5rem; white-space:pre-line;"></p><button class="btn-primary" onclick="closeAlertModal()">ตกลง</button></div></div>
+
+  <script>
+    let alertCallback = null;
+    function showAlert(title, message, callback = null) {
+      document.getElementById('alertTitle').innerText = title;
+      document.getElementById('alertMessage').innerText = message;
+      document.getElementById('customAlertModal').style.display = 'flex';
+      alertCallback = callback;
+    }
+    function closeAlertModal() {
+      document.getElementById('customAlertModal').style.display = 'none';
+      if (alertCallback) { const callback = alertCallback; alertCallback = null; callback(); }
+    }
+
+    // แก้เฉพาะการโหลดข้อมูล: รวมข้อมูลจาก currentUser กับ usersList โดยใช้ username เป็นตัวจับคู่
+    function readJSON(key, fallback) {
+      try { return JSON.parse(localStorage.getItem(key)) || fallback; }
+      catch (error) { console.error('อ่านข้อมูลไม่สำเร็จ:', key, error); return fallback; }
+    }
+
+    let usersList = readJSON('usersList', []);
+    let currentUser = readJSON('currentUser', null);
+
+    if (currentUser && currentUser.username) {
+      const registeredUser = usersList.find(user => user.username === currentUser.username);
+      if (registeredUser) {
+        currentUser = { ...registeredUser, ...currentUser };
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      }
+    }
+
+    const uName = currentUser?.username || '-';
+    const fName = currentUser?.name || '-';
+    const pPhone = currentUser?.phone || '-';
+    const eMail = currentUser?.email || '-';
+    const uAddress = currentUser?.address || '';
+
+    document.getElementById('profUsername').innerText = uName;
+    document.getElementById('profName').value = fName === '-' ? '' : fName;
+    document.getElementById('profPhone').value = pPhone === '-' ? '' : pPhone;
+    document.getElementById('profEmail').value = eMail === '-' ? '' : eMail;
+    document.getElementById('profAddress').value = uAddress;
+    updateAvatarDisplay(currentUser?.avatar || '');
+
+    function updateAvatarDisplay(avatarData) {
+      const container = document.getElementById('avatarContainer');
+      const displayName = fName !== '-' ? fName : 'U';
+      if (avatarData && avatarData.trim() !== '' && avatarData !== 'Logo.webp') {
+        container.innerHTML = `<img src="${avatarData}" alt="Avatar">`;
+      } else {
+        container.innerHTML = `<span id="avatarInitial">${displayName.charAt(0).toUpperCase()}</span>`;
+      }
+    }
+
+    let cropImage = new Image();
+    let imgX = 0, imgY = 0, imgScale = 1;
+    let isDragging = false, startX = 0, startY = 0;
+
+    function initCropper(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        cropImage.src = e.target.result;
+        cropImage.onload = function() {
+          imgScale = Math.max(250 / cropImage.width, 250 / cropImage.height);
+          document.getElementById('zoomRange').value = Math.min(3, Math.max(0.5, imgScale));
+          imgX = (250 - cropImage.width * imgScale) / 2;
+          imgY = (250 - cropImage.height * imgScale) / 2;
+          drawCropCanvas();
+          document.getElementById('cropModal').style.display = 'flex';
+        };
+      };
+      reader.readAsDataURL(file);
+      event.target.value = '';
+    }
+
+    const canvas = document.getElementById('cropCanvas');
+    const ctx = canvas.getContext('2d');
+    function drawCropCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(cropImage, imgX, imgY, cropImage.width * imgScale, cropImage.height * imgScale); }
+    function onZoomChange(val) { const oldScale = imgScale; imgScale = parseFloat(val); imgX = 125 - (125 - imgX) * (imgScale / oldScale); imgY = 125 - (125 - imgY) * (imgScale / oldScale); drawCropCanvas(); }
+
+    const container = document.getElementById('canvasContainer');
+    container.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX - imgX; startY = e.clientY - imgY; });
+    window.addEventListener('mousemove', e => { if (!isDragging) return; imgX = e.clientX - startX; imgY = e.clientY - startY; drawCropCanvas(); });
+    window.addEventListener('mouseup', () => { isDragging = false; });
+    container.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX - imgX; startY = e.touches[0].clientY - imgY; }, { passive: true });
+    window.addEventListener('touchmove', e => { if (!isDragging) return; imgX = e.touches[0].clientX - startX; imgY = e.touches[0].clientY - startY; drawCropCanvas(); }, { passive: true });
+    window.addEventListener('touchend', () => { isDragging = false; });
+
+    function closeCropModal() { document.getElementById('cropModal').style.display = 'none'; }
+    function saveCroppedImage() {
+      if (!currentUser || !currentUser.username) { showAlert('ไม่พบข้อมูลผู้ใช้', 'กรุณาล็อกอินใหม่ก่อนเปลี่ยนรูปโปรไฟล์'); return; }
+      const exportCanvas = document.createElement('canvas');
+      exportCanvas.width = 250; exportCanvas.height = 250;
+      const eCtx = exportCanvas.getContext('2d');
+      eCtx.drawImage(cropImage, imgX, imgY, cropImage.width * imgScale, cropImage.height * imgScale);
+      const base64Image = exportCanvas.toDataURL('image/webp', 0.9);
+      currentUser.avatar = base64Image;
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      const list = readJSON('usersList', []);
+      const index = list.findIndex(user => user.username === currentUser.username);
+      if (index !== -1) { list[index].avatar = base64Image; localStorage.setItem('usersList', JSON.stringify(list)); }
+      updateAvatarDisplay(base64Image);
+      closeCropModal();
+      showAlert('สำเร็จ 🎉', 'อัปเดตและบันทึกรูปโปรไฟล์เรียบร้อยแล้ว!');
+    }
+
+    function saveProfile() {
+      if (!currentUser || !currentUser.username) { showAlert('ไม่พบข้อมูลผู้ใช้', 'กรุณาล็อกอินใหม่ก่อนบันทึกข้อมูล'); return; }
+      const name = document.getElementById('profName').value.trim();
+      const phone = document.getElementById('profPhone').value.trim();
+      const email = document.getElementById('profEmail').value.trim();
+      const address = document.getElementById('profAddress').value.trim();
+      if (!name || !phone || !email) { showAlert('ข้อมูลไม่ครบ ❌', 'กรุณากรอกชื่อ เบอร์โทร และอีเมลให้ครบถ้วน'); return; }
+      if (!/^\d{10}$/.test(phone)) { showAlert('เบอร์โทรไม่ถูกต้อง ❌', 'กรุณากรอกเบอร์โทรศัพท์ให้ครบ 10 หลัก'); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { showAlert('อีเมลไม่ถูกต้อง ❌', 'กรุณากรอกอีเมลให้ถูกต้อง'); return; }
+      const updated = { ...currentUser, username: currentUser.username, name, phone, email, address };
+      const list = readJSON('usersList', []);
+      const index = list.findIndex(user => user.username === currentUser.username);
+      if (index !== -1) list[index] = { ...list[index], ...updated };
+      else list.push(updated);
+      localStorage.setItem('usersList', JSON.stringify(list));
+      localStorage.setItem('currentUser', JSON.stringify(updated));
+      document.getElementById('saveProfileButton').disabled = true;
+      showAlert('บันทึกสำเร็จ 🎉', 'บันทึกข้อมูลเรียบร้อย กำลังกลับหน้าแรก...', () => { window.location.href = 'index.html'; });
+    }
+    function logout() { localStorage.removeItem('currentUser'); window.location.href = 'login.html'; }
+  </script>
+</body>
+</html>

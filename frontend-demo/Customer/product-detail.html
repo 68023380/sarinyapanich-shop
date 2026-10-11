@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>รายละเอียดสินค้า - ศริณญาพานิช</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+.header-bar { max-width: 900px; margin: 2rem auto 1rem; padding: 1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; gap:1rem; background:var(--white); border:1px solid var(--border-color); border-radius:var(--radius-lg); box-shadow:var(--shadow-soft); }
+.logo-container { display:flex; align-items:center; gap:.8rem; min-width:0; }
+.store-logo { width:45px; height:45px; object-fit:cover; border-radius:50%; border:2px solid var(--primary-red); }
+.header-actions { display:flex; gap:.6rem; flex-wrap:wrap; }
+.header-btn { display:inline-flex; align-items:center; justify-content:center; min-width:100px; padding:.55rem .9rem; border-radius:var(--radius-md); color:#fff; text-decoration:none; font-family:'Kanit',sans-serif; font-weight:600; font-size:.88rem; }
+.home-btn { background:var(--primary-red); }
+.cart-btn { background:#475569; }
+.detail-container { max-width:900px; margin:0 auto 2rem; padding:2rem; background:var(--white); border:1px solid var(--border-color); border-radius:var(--radius-lg); box-shadow:var(--shadow-soft); }
+.back-link { display:inline-block; margin-bottom:1.2rem; color:var(--primary-red); text-decoration:none; font-weight:600; }
+.product-detail { display:grid; grid-template-columns:minmax(240px, 1fr) minmax(280px, 1.2fr); gap:2rem; align-items:start; }
+.product-visual { min-height:300px; display:flex; align-items:center; justify-content:center; background:#f8fafc; border:1px solid var(--border-color); border-radius:var(--radius-lg); }
+.product-emoji { font-size:8rem; line-height:1; }
+.product-image { width:100%; height:300px; object-fit:cover; border-radius:var(--radius-lg); }
+.product-category { display:inline-block; padding:.3rem .75rem; border-radius:50px; background:#fee2e2; color:var(--primary-red); font-size:.82rem; font-weight:600; }
+.product-name { margin:.8rem 0 .4rem; color:var(--text-dark); font-size:1.8rem; }
+.product-price { color:var(--primary-red); font-size:1.6rem; font-weight:700; margin-bottom:1rem; }
+.product-description { color:var(--text-muted); line-height:1.7; margin-bottom:1.2rem; }
+.info-box { padding:1rem; margin-bottom:1.2rem; background:#f8fafc; border:1px solid var(--border-color); border-radius:var(--radius-md); }
+.info-box h3 { color:var(--text-dark); font-size:1rem; margin-bottom:.5rem; }
+.info-box p, .info-box li { color:var(--text-muted); font-size:.9rem; line-height:1.7; }
+.info-box ul { margin:0; padding-left:1.2rem; }
+.purchase-row { display:flex; gap:.7rem; align-items:center; }
+.quantity-input { width:76px; padding:.7rem .5rem; text-align:center; border:1px solid var(--border-color); border-radius:var(--radius-md); font-family:'Kanit',sans-serif; font-size:1rem; }
+.add-button { flex:1; padding:.75rem 1rem; border:0; border-radius:var(--radius-md); background:var(--primary-red); color:#fff; font-family:'Kanit',sans-serif; font-size:1rem; font-weight:600; cursor:pointer; }
+.add-button:hover { opacity:.9; }
+@media (max-width:650px) { .header-bar { margin:1rem; padding:.9rem 1rem; flex-direction:column; align-items:stretch; } .logo-container { justify-content:center; } .header-actions { width:100%; } .header-btn { flex:1; } .detail-container { margin:0 1rem 1.5rem; padding:1.2rem; } .product-detail { grid-template-columns:1fr; gap:1.2rem; } .product-visual { min-height:220px; } .product-image { height:220px; } .product-name { font-size:1.5rem; } }
+
+/* Extra product detail effects */
+.header-bar,.detail-container{position:relative;overflow:hidden}.header-bar::after{content:'✦';position:absolute;right:24px;top:10px;color:#e4a11b;font-size:1.4rem;animation:twinkle 1.8s ease-in-out infinite;pointer-events:none}.store-logo{transition:transform .3s,box-shadow .3s;animation:floatLogo 3.5s ease-in-out infinite;cursor:pointer}.store-logo:hover,.store-logo.is-bouncing{transform:rotate(-8deg) scale(1.12);box-shadow:0 6px 18px rgba(198,40,40,.25)}.detail-brand-title{background:linear-gradient(90deg,#b71c1c,#e09b22,#b71c1c);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:textShine 4s linear infinite}.back-link{transition:transform .2s}.back-link:hover{transform:translateX(-4px)}.product-detail{animation:detailIn .55s ease both}.product-visual{position:relative;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(198,40,40,.04)}.product-visual::after{content:'';position:absolute;width:150px;height:150px;border-radius:50%;border:1px dashed rgba(198,40,40,.25);animation:spin 12s linear infinite}.product-emoji{position:relative;z-index:1;animation:emojiFloat 3s ease-in-out infinite;transition:transform .3s}.product-visual:hover .product-emoji{transform:scale(1.14) rotate(-5deg)}.product-category{animation:popIn .5s ease both}.product-name{background:linear-gradient(90deg,#332b2b,#c62828,#332b2b);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:textShine 5s linear infinite}.info-box{transition:transform .2s,box-shadow .2s}.info-box:hover{transform:translateY(-2px);box-shadow:0 5px 12px rgba(100,50,30,.07)}.quantity-input{transition:border-color .2s,box-shadow .2s}.quantity-input:focus{outline:none;border-color:var(--primary-red);box-shadow:0 0 0 4px rgba(198,40,40,.1)}.add-button{transition:transform .2s,box-shadow .2s}.add-button:hover{transform:translateY(-2px);box-shadow:0 8px 16px rgba(198,40,40,.22)}.cart-count-badge{position:absolute;top:-8px;right:-8px;min-width:20px;height:20px;padding:0 5px;border-radius:50px;display:grid;place-items:center;background:#fff;color:var(--primary-red);border:2px solid var(--primary-red);font-size:.72rem;line-height:1}.cart-btn{position:relative}.detail-toast{position:fixed;left:50%;bottom:24px;z-index:20;transform:translate(-50%,18px);opacity:0;pointer-events:none;background:#1f2937;color:#fff;padding:.65rem 1rem;border-radius:50px;font-size:.88rem;transition:.3s}.detail-toast.show{opacity:1;transform:translate(-50%,0)}@keyframes floatLogo{50%{transform:translateY(-3px)}}@keyframes twinkle{50%{transform:scale(1.45) rotate(18deg);opacity:.45}}@keyframes textShine{to{background-position:200% center}}@keyframes spin{to{transform:rotate(360deg)}}@keyframes emojiFloat{50%{transform:translateY(-8px)}}@keyframes detailIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div class="logo-container">
+    <img src="pic/Logo.webp" alt="โลโก้" class="store-logo" id="storeLogo" onerror="this.onerror=null;this.src='Logo.webp';">
+    <h1 class="detail-brand-title" style="font-size:1.3rem;margin:0;white-space:nowrap;">ศริณญาพานิช 🛒</h1>
+  </div>
+  <nav class="header-actions" aria-label="เมนูหลัก">
+    <a href="index.html" class="header-btn home-btn">⌂ หน้าแรก</a>
+    <a href="cart.html" class="header-btn cart-btn" id="cartNav">🛒 ตะกร้า<span class="cart-count-badge" id="cartCount" hidden>0</span></a>
+  </nav>
+</div>
+
+<main class="detail-container">
+  <a href="index.html" class="back-link">← กลับไปเลือกซื้อสินค้า</a>
+  <div id="productDetail"></div>
+</main>
+<div class="detail-toast" id="detailToast" role="status" aria-live="polite"></div>
+
+<div id="customAlertModal" class="modal-overlay" style="display:none;">
+  <div class="modal-card" style="text-align:center;">
+    <h3 id="alertTitle" style="margin-bottom:.8rem;color:var(--primary-red);">แจ้งเตือน</h3>
+    <p id="alertMessage" style="color:var(--text-dark);margin-bottom:1.5rem;white-space:pre-line;"></p>
+    <button class="btn-primary" onclick="closeAlertModal()">ตกลง</button>
+  </div>
+</div>
+
+<script>
+const products = [
+  { id:1, name:'ข้าวหอมมะลิ 5 กก.', price:189, category:'grain', emoji:'🍚', description:'ข้าวหอมมะลิคุณภาพดี เมล็ดเรียวยาว หุงขึ้นหม้อนุ่มหอม เหมาะสำหรับรับประทานทุกมื้อ', ingredients:'ข้าวหอมมะลิ 100%', details:['น้ำหนักสุทธิ: 5 กิโลกรัม','ควรเก็บในที่แห้งและอากาศถ่ายเท','ควรปิดถุงให้สนิทหลังเปิดใช้'] },
+  { id:2, name:'ข้าวเหนียว 2 กก.', price:79, category:'grain', emoji:'🌾', description:'ข้าวเหนียวเมล็ดสวย เหนียวนุ่ม หุงหรือนึ่งได้ง่าย เหมาะกับอาหารไทยและอาหารอีสาน', ingredients:'ข้าวเหนียว 100%', details:['น้ำหนักสุทธิ: 2 กิโลกรัม','ควรเก็บให้ห่างจากความชื้น','ล้างและแช่น้ำก่อนนึ่ง'] },
+  { id:3, name:'ข้าวกล้องหอมมะลิ 1 กก.', price:69, category:'grain', emoji:'🌾', description:'ข้าวกล้องหอมมะลิที่ยังคงคุณค่าจากเยื่อหุ้มเมล็ด รสชาติดีและมีกลิ่นหอม', ingredients:'ข้าวกล้องหอมมะลิ 100%', details:['น้ำหนักสุทธิ: 1 กิโลกรัม','ควรเก็บในที่แห้งและเย็น','อาจต้องเติมน้ำมากกว่าข้าวขาวเล็กน้อย'] },
+  { id:4, name:'ถั่วเขียว 500 กรัม', price:45, category:'grain', emoji:'🫘', description:'ถั่วเขียวเมล็ดสะอาด เหมาะสำหรับทำขนม ต้มน้ำถั่วเขียว หรือประกอบอาหาร', ingredients:'ถั่วเขียว 100%', details:['น้ำหนักสุทธิ: 500 กรัม','คัดสิ่งเจือปนและล้างก่อนปรุง','เก็บในภาชนะปิดสนิท'] },
+  { id:5, name:'น้ำมันพืช 1 ลิตร', price:55, category:'oil', emoji:'🫗', description:'น้ำมันพืชสำหรับทอด ผัด และประกอบอาหารทั่วไป ให้ความร้อนสม่ำเสมอ', ingredients:'น้ำมันปาล์มโอเลอีน 100%', details:['ปริมาตรสุทธิ: 1 ลิตร','เก็บในที่แห้งและไม่โดนแสงแดด','ไม่ควรใช้ซ้ำหลายครั้ง'] },
+  { id:6, name:'น้ำปลาแท้ 700 มล.', price:32, category:'oil', emoji:'🧂', description:'น้ำปลาแท้รสกลมกล่อม ช่วยเพิ่มรสชาติให้อาหารไทยหลากหลายเมนู', ingredients:'ปลากะตัก, เกลือ, น้ำตาล', details:['ปริมาตรสุทธิ: 700 มิลลิลิตร','เขย่าก่อนใช้','แช่เย็นหลังเปิดเพื่อคงคุณภาพ'] },
+  { id:7, name:'ซีอิ๊วขาว 700 มล.', price:38, category:'oil', emoji:'🥣', description:'ซีอิ๊วขาวรสกลมกล่อม ใช้หมัก ผัด ต้ม หรือนำไปปรุงอาหารได้', ingredients:'ถั่วเหลือง, แป้งสาลี, เกลือ, น้ำตาล', details:['ปริมาตรสุทธิ: 700 มิลลิลิตร','มีส่วนประกอบของถั่วเหลืองและแป้งสาลี','ปิดฝาให้สนิทหลังใช้'] },
+  { id:8, name:'น้ำตาลทราย 1 กก.', price:28, category:'oil', emoji:'🍬', description:'น้ำตาลทรายขาวสำหรับปรุงอาหาร เครื่องดื่ม และขนมหวาน', ingredients:'น้ำตาลทราย 100%', details:['น้ำหนักสุทธิ: 1 กิโลกรัม','เก็บในที่แห้ง','ปิดถุงหรือภาชนะให้สนิท'] },
+  { id:9, name:'ไข่ไก่ เบอร์ 2 แพ็ก 10 ฟอง', price:52, category:'fresh', emoji:'🥚', description:'ไข่ไก่สดคัดขนาด เหมาะสำหรับทอด ต้ม ทำขนม และประกอบอาหารทุกวัน', ingredients:'ไข่ไก่ 100%', details:['บรรจุ 10 ฟอง','ควรเก็บในตู้เย็น','ควรปรุงให้สุกก่อนรับประทาน'] },
+  { id:10, name:'นมสด 2 ลิตร', price:89, category:'fresh', emoji:'🥛', description:'นมสดรสธรรมชาติ ดื่มได้ทุกวัน หรือใช้ทำอาหารและเครื่องดื่ม', ingredients:'น้ำนมโค 100%', details:['ปริมาตรสุทธิ: 2 ลิตร','เก็บในตู้เย็น','ตรวจสอบวันหมดอายุก่อนบริโภค'] },
+  { id:11, name:'ผักกาดขาว 1 หัว', price:35, category:'fresh', emoji:'🥬', description:'ผักกาดขาวสด กรอบ เหมาะสำหรับต้มจืด ผัด หรือรับประทานร่วมกับเมนูต่าง ๆ', ingredients:'ผักกาดขาวสด 100%', details:['ควรล้างให้สะอาดก่อนรับประทาน','เก็บในช่องผักของตู้เย็น','ควรบริโภคภายในไม่กี่วัน'] },
+  { id:12, name:'ปลากระป๋องในซอสมะเขือเทศ', price:25, category:'canned', emoji:'🥫', description:'ปลากระป๋องในซอสมะเขือเทศ รสชาติอร่อย เปิดรับประทานได้ทันทีหรือใช้ทำอาหาร', ingredients:'ปลา, ซอสมะเขือเทศ, น้ำ, เกลือ, น้ำตาล', details:['ควรตรวจสอบกระป๋องก่อนเปิด','เมื่อเปิดแล้วควรรับประทานให้หมด','เก็บในที่แห้งและอุณหภูมิปกติ'] },
+  { id:13, name:'ข้าวโพดหวานกระป๋อง', price:29, category:'canned', emoji:'🌽', description:'ข้าวโพดหวานเมล็ดเต็ม รสหวานธรรมชาติ ใช้ทำสลัด ซุป หรือรับประทานเป็นเครื่องเคียง', ingredients:'ข้าวโพดหวาน, น้ำ, เกลือ, น้ำตาล', details:['น้ำหนักสุทธิ: 340 กรัม','เปิดแล้วควรเก็บในตู้เย็น','ควรรับประทานให้หมดภายใน 1-2 วัน'] },
+  { id:14, name:'ถั่วอบในซอสมะเขือเทศ', price:35, category:'canned', emoji:'🥫', description:'ถั่วอบในซอสมะเขือเทศ รสชาติเข้มข้น เหมาะกับมื้อเช้าหรือทำเป็นเครื่องเคียง', ingredients:'ถั่วขาว, ซอสมะเขือเทศ, น้ำตาล, เกลือ', details:['ควรตรวจสอบกระป๋องก่อนเปิด','เปิดแล้วควรแช่เย็น','อุ่นก่อนรับประทานได้ตามต้องการ'] },
+  { id:15, name:'ผลไม้รวมกระป๋อง', price:49, category:'canned', emoji:'🍑', description:'ผลไม้รวมในน้ำเชื่อม มีรสหวานสดชื่น เหมาะสำหรับรับประทานหรือทำของหวาน', ingredients:'ลูกพีช, สับปะรด, เชอร์รี, น้ำ, น้ำตาล', details:['น้ำหนักสุทธิ: 565 กรัม','เปิดแล้วควรเก็บในตู้เย็น','ควรรับประทานให้หมดโดยเร็ว'] }
+];
+
+function readJSON(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; } }
+function categoryName(category) { return {grain:'ข้าวและธัญพืช',oil:'เครื่องปรุง/น้ำมัน',fresh:'ไข่และอาหารสด',canned:'อาหารกระป๋อง'}[category] || ''; }
+function showAlert(title, message) { document.getElementById('alertTitle').textContent=title; document.getElementById('alertMessage').textContent=message; document.getElementById('customAlertModal').style.display='flex'; }
+function closeAlertModal() { document.getElementById('customAlertModal').style.display='none'; }
+const storeLogo=document.getElementById('storeLogo');
+storeLogo.addEventListener('click',()=>{storeLogo.classList.remove('is-bouncing');void storeLogo.offsetWidth;storeLogo.classList.add('is-bouncing');setTimeout(()=>storeLogo.classList.remove('is-bouncing'),500)});
+function getCartKey(){const user=readJSON('currentUser',null);return user&&user.username?'cart_'+user.username:'cart';}
+function migrateLegacyCart(){const key=getCartKey();if(key==='cart')return;const current=readJSON(key,null),legacy=readJSON('cart',[]);if(current===null&&legacy.length){localStorage.setItem(key,JSON.stringify(legacy));localStorage.removeItem('cart')}}
+function updateCartBadge(){const cart=readJSON(getCartKey(),[]),count=cart.reduce((sum,item)=>sum+(Number(item.quantity)||0),0),badge=document.getElementById('cartCount');badge.textContent=count>99?'99+':count;badge.hidden=count===0}
+function showDetailToast(message){const toast=document.getElementById('detailToast');toast.textContent=message;toast.classList.add('show');clearTimeout(window.detailToastTimer);window.detailToastTimer=setTimeout(()=>toast.classList.remove('show'),1600)}
+
+const productId = Number(new URLSearchParams(window.location.search).get('id'));
+const product = products.find(item => item.id === productId);
+const detail = document.getElementById('productDetail');
+
+if (!product) {
+  detail.innerHTML = '<div style="text-align:center;padding:3rem 1rem;"><h2 style="color:var(--primary-red);">ไม่พบสินค้านี้</h2><a href="index.html" class="back-link">กลับไปหน้าแรก</a></div>';
+} else {
+  detail.innerHTML = `
+    <div class="product-detail">
+      <div class="product-visual"><div class="product-emoji">${product.emoji}</div></div>
+      <section>
+        <span class="product-category">${categoryName(product.category)}</span>
+        <h2 class="product-name">${product.name}</h2>
+        <div class="product-price">฿${product.price.toLocaleString('th-TH')}</div>
+        <p class="product-description">${product.description}</p>
+        <div class="info-box"><h3>ส่วนประกอบ</h3><p>${product.ingredients}</p></div>
+        <div class="info-box"><h3>ข้อมูลที่ควรรู้</h3><ul>${product.details.map(item => `<li>${item}</li>`).join('')}</ul></div>
+        <div class="purchase-row"><input id="quantity" class="quantity-input" type="number" min="1" value="1"><button class="add-button" onclick="addToCart()">เพิ่มลงตะกร้า 🛒</button></div>
+      </section>
+    </div>`;
+}
+
+function addToCart() {
+  const currentUser = readJSON('currentUser', null);
+  if (!currentUser || !currentUser.username) { showAlert('กรุณาเข้าสู่ระบบ', 'กรุณาเข้าสู่ระบบก่อนเพิ่มสินค้าลงตะกร้า'); return; }
+  const quantity = Math.max(1, Number(document.getElementById('quantity').value) || 1);
+  migrateLegacyCart();
+  const key = getCartKey();
+  const cart = readJSON(key, []);
+  const existing = cart.find(item => item.id === product.id);
+  if (existing) existing.quantity += quantity;
+  else cart.push({ ...product, quantity });
+  localStorage.setItem(key, JSON.stringify(cart));
+  updateCartBadge();
+  showDetailToast(`เพิ่ม ${quantity} ชิ้นลงตะกร้าแล้ว`);
+  showAlert('เพิ่มสินค้าสำเร็จ 🎉', `${product.name}\nเพิ่มจำนวน ${quantity} ชิ้นแล้ว`);
+}
+migrateLegacyCart();
+updateCartBadge();
+</script>
+</body>
+</html>

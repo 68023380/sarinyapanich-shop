@@ -1,0 +1,205 @@
+:root {
+  --primary-red: #e63946;
+  --soft-red: #ff6b6b;
+  --light-red: #fff0f3;
+  --dark-red: #c1121f;
+  --gradient-red: linear-gradient(135deg, #ff6b6b 0%, #e63946 50%, #c1121f 100%);
+  --gradient-bg: linear-gradient(180deg, #fff5f5 0%, #ffffff 100%);
+  --text-dark: #2b2d42;
+  --text-muted: #6c757d;
+  --bg-cream: #fffafb;
+  --white: #ffffff;
+  --border-color: #ffccd5;
+  --shadow-soft: 0 10px 30px rgba(230, 57, 70, 0.08);
+  --radius-lg: 24px;
+  --radius-md: 14px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Kanit', sans-serif;
+}
+
+body {
+  background: var(--gradient-bg);
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: radial-gradient(circle at top right, #ffe5ec 0%, transparent 45%),
+              radial-gradient(circle at bottom left, #fff0f3 0%, transparent 45%);
+}
+
+.auth-card {
+  background: var(--white);
+  width: 100%;
+  max-width: 440px;
+  padding: 2.5rem 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+  animation: floatUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auth-card::before {
+  content: "🧺 🥦 🍎 🥛 🥫 🥖";
+  position: absolute;
+  top: 10px;
+  right: -10px;
+  font-size: 1.1rem;
+  opacity: 0.15;
+  letter-spacing: 4px;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 1.8rem;
+}
+
+.auth-header img.logo-img {
+  width: 95px;
+  height: 95px;
+  object-fit: contain;
+  margin-bottom: 0.8rem;
+  filter: drop-shadow(0 4px 10px rgba(230, 57, 70, 0.15));
+  animation: bounceSoft 2.5s infinite alternate ease-in-out;
+}
+
+.auth-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: var(--gradient-red);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.auth-header p {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  margin-top: 4px;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  color: var(--text-dark);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 0.98rem;
+  transition: all 0.3s ease;
+  background: var(--bg-cream);
+  color: var(--text-dark);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-red);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.12);
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 0.9rem;
+  background: var(--gradient-red);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(230, 57, 70, 0.25);
+  transition: all 0.3s ease;
+  margin-top: 0.6rem;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(230, 57, 70, 0.35);
+}
+
+.auth-footer-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.auth-footer-links a {
+  color: var(--primary-red);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-footer-links a:hover {
+  color: var(--dark-red);
+  text-decoration: underline;
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(43, 45, 66, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-card {
+  background: var(--white);
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  border: 1px solid var(--border-color);
+  animation: floatUp 0.3s ease-out;
+}
+
+.demo-otp-badge {
+  background: var(--light-red);
+  color: var(--primary-red);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+@keyframes floatUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounceSoft {
+  from { transform: translateY(0); }
+  to { transform: translateY(-7px); }
+}

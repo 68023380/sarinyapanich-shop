@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - ศริณญาพานิช</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="admin.css" />
+    <style>
+      #categoryForm .category-input-shell{position:relative}
+      #categoryForm .category-input-icon{position:absolute;left:.85rem;bottom:.78rem;font-size:1.1rem;opacity:.7;pointer-events:none}
+      #categoryForm #newCategoryName{padding-left:2.55rem!important;border:1px solid #cbd5e1!important;background:linear-gradient(135deg,#fff,#f8fbff)!important;box-shadow:0 5px 16px rgba(15,23,42,.06);transition:border-color .2s,box-shadow .2s,transform .2s}
+      #categoryForm #newCategoryName::placeholder{color:#94a3b8}
+      #categoryForm #newCategoryName:focus{outline:none;border-color:#d62828!important;box-shadow:0 0 0 4px rgba(214,40,40,.12),0 8px 20px rgba(15,23,42,.08);transform:translateY(-1px)}
+      #categoryForm #addCategoryButton{box-shadow:0 8px 18px rgba(198,40,40,.2);transition:transform .2s,box-shadow .2s}
+      #categoryForm #addCategoryButton:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(198,40,40,.28)}
+      @media (max-width:640px){#categoryForm{grid-template-columns:1fr!important}#categoryForm #addCategoryButton{width:100%}}
+    </style>
+  </head>
+  <body>
+    <section class="admin-login" id="adminLogin">
+      <div class="login-card">
+        <img src="pic/Logo.webp" alt="โลโก้ร้าน" />
+        <h1 style="color: #c62828; margin: 0.7rem 0 0.2rem">Admin Prototype</h1>
+        <p style="color: #64748b; margin-bottom: 1rem">
+          เข้าสู่ระบบด้วยบัญชีแอดมินจาก Backend
+        </p>
+        <input
+          id="adminUser"
+          placeholder="ชื่อผู้ใช้แอดมิน"
+          autocomplete="username"
+        /><input
+          id="adminPass"
+          type="password"
+          placeholder="รหัสผ่าน"
+          autocomplete="current-password"
+        /><button class="btn-primary" id="adminLoginButton">
+          เข้าสู่ระบบแอดมิน</button
+        ><small style="display: block; margin-top: 1rem; color: #64748b"
+          >ใช้ชื่อผู้ใช้และรหัสผ่านของบัญชี Admin</small
+        >
+      </div>
+    </section>
+    <section class="admin-shell" id="adminShell">
+      <header class="admin-topbar">
+        <div class="admin-brand">
+          <img src="pic/Logo.webp" alt="โลโก้" />
+          <div>
+            <strong>ศริณญาพานิช</strong><br /><small
+              >Admin Dashboard · Backend</small
+            >
+          </div>
+        </div>
+        <nav class="admin-nav">
+          <button class="active" data-view="overview">ภาพรวม</button
+          ><button data-view="orders">ออเดอร์</button
+          ><button data-view="users">ผู้ใช้</button
+          ><button data-view="products">สินค้า</button>
+        </nav>
+        <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap"><button type="button" id="changePasswordButton" style="border:0;border-radius:8px;padding:.5rem .8rem;background:#374151;color:#fff;cursor:pointer;font:inherit">เปลี่ยนรหัสผ่าน</button><button class="logout-btn" id="adminLogout">ออกจากระบบ</button></div>
+      </header>
+      <main class="admin-content">
+        <div class="dashboard-view active" id="view-overview">
+          <h2>ภาพรวมร้าน</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <small>ออเดอร์ทั้งหมด</small>
+              <div class="number" id="statOrders">0</div>
+            </div>
+            <div class="stat-card">
+              <small>ยอดขายรวม</small>
+              <div class="number" id="statSales">฿0</div>
+            </div>
+            <div class="stat-card">
+              <small>ลูกค้า</small>
+              <div class="number" id="statUsers">0</div>
+            </div>
+            <div class="stat-card">
+              <small>รอดำเนินการ</small>
+              <div class="number" id="statPending">0</div>
+            </div>
+          </div>
+          <div class="admin-card">
+            <h3>ออเดอร์ล่าสุด</h3>
+            <div id="recentOrders"></div>
+          </div>
+        </div>
+        <div class="dashboard-view" id="view-orders">
+          <h2>จัดการออเดอร์</h2>
+          <div class="admin-card">
+            <div class="toolbar">
+              <input
+                id="orderSearch"
+                placeholder="ค้นหาเลขออเดอร์ / ชื่อผู้ใช้"
+              /><select id="orderFilter" class="status-select">
+                <option value="all">ทุกสถานะ</option>
+                <option>สั่งซื้อสำเร็จ</option>
+                <option>กำลังเตรียมพัสดุ</option>
+                <option>กำลังจัดส่งสินค้า</option>
+                <option>จัดส่งสำเร็จ</option>
+              </select>
+            </div>
+            <div id="ordersTable"></div>
+          </div>
+        </div>
+        <div class="dashboard-view" id="view-users">
+          <h2>จัดการผู้ใช้</h2>
+          <div class="admin-card">
+            <div class="toolbar">
+              <input id="userSearch" placeholder="ค้นหาชื่อผู้ใช้ / ชื่อจริง" />
+            </div>
+            <div id="usersTable"></div>
+          </div>
+        </div>
+        <div class="dashboard-view" id="view-products">
+          <h2>จัดการสินค้าจากฐานข้อมูล</h2>
+          <div class="admin-card">
+            <div class="product-form-heading">
+              <div>
+                <h3>เพิ่มสินค้าใหม่</h3>
+                <p>กรอกข้อมูลสินค้าให้ครบ เพื่อให้แสดงรายละเอียดได้สวยและชัดเจน</p>
+              </div>
+              <span class="form-badge">Catalog</span>
+            </div>
+            <form class="admin-form product-form" id="productForm">
+              <div>
+                <label for="newProductName">ชื่อสินค้า</label>
+                <input id="newProductName" placeholder="เช่น ข้าวหอมมะลิ 5 กก." required />
+              </div>
+              <div>
+                <label for="newProductPrice">ราคา (บาท)</label>
+                <input id="newProductPrice" type="number" min="0" placeholder="0" required />
+              </div>
+              <div>
+                <label for="newProductStock">จำนวนสต็อก</label>
+                <input id="newProductStock" type="number" min="0" placeholder="0" required />
+              </div>
+              <div>
+                <label for="newProductCategory">หมวดหมู่</label>
+                <select id="newProductCategory">
+                  <option value="grain">ข้าวและธัญพืช</option>
+                  <option value="oil">เครื่องปรุง/น้ำมัน</option>
+                  <option value="fresh">ไข่และอาหารสด</option>
+                  <option value="canned">อาหารกระป๋อง</option>
+                </select>
+              </div>
+              <div class="full image-fields">
+                <label for="newProductImageUrl">รูปสินค้า</label>
+                <div class="image-input-row">
+                  <input id="newProductImageUrl" type="url" placeholder="วาง URL รูปภาพ เช่น https://.../product.jpg" />
+                  <span class="or-divider">หรือ</span>
+                  <label class="file-picker" for="newProductImageFile">เลือกรูปจากเครื่อง</label>
+                  <input id="newProductImageFile" type="file" accept="image/*" hidden />
+                </div>
+                <small class="field-hint">รองรับ JPG, PNG, WebP ขนาดไม่เกิน 3 MB — ถ้าไม่ใส่รูปจะใช้ Emoji แทน</small>
+                <div class="image-preview-wrap" id="newProductImagePreview" hidden>
+                  <img id="newProductImagePreviewImg" alt="ตัวอย่างรูปสินค้า" />
+                  <button type="button" class="clear-image" id="clearProductImage">ล้างรูป</button>
+                </div>
+              </div>
+              <div class="full">
+                <label for="newProductDescription">รายละเอียดสินค้า</label>
+                <textarea id="newProductDescription" rows="4" placeholder="เขียนคำอธิบายสินค้า จุดเด่น หรือวิธีใช้งาน"></textarea>
+              </div>
+              <div>
+                <label for="newProductIngredients">ส่วนประกอบ</label>
+                <input id="newProductIngredients" placeholder="เช่น ข้าวหอมมะลิ 100%" />
+              </div>
+              <div>
+                <label for="newProductDetails">ข้อมูลเพิ่มเติม</label>
+                <input id="newProductDetails" placeholder="เช่น น้ำหนักสุทธิ 5 กก." />
+              </div>
+              <div class="full product-form-actions">
+                <button class="primary-admin" type="submit">
+                  <span id="productSubmitText">เพิ่มสินค้าใน Catalog</span>
+                </button>
+                <button class="secondary-admin" type="button" id="cancelEditButton" hidden>ยกเลิกแก้ไข</button>
+              </div>
+            </form>
+            <section class="category-manager" style="margin:1.2rem 0;padding:1rem;border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc">
+              <div class="product-form-heading">
+                <div><h3 style="margin-bottom:.25rem">จัดการหมวดหมู่สินค้า</h3><p>เพิ่มหมวดหมู่ใหม่ได้จากหน้านี้ โดยไม่ต้องแก้โค้ด</p></div>
+                <span class="form-badge">Categories</span>
+              </div>
+              <form id="categoryForm" style="display:grid;grid-template-columns:minmax(240px,1fr) auto;gap:.8rem;align-items:end;margin-top:1rem">
+                <div style="min-width:0"><label for="newCategoryName" style="display:block;margin-bottom:.4rem;font-weight:600">ชื่อหมวดหมู่ใหม่</label><div class="category-input-shell"><span class="category-input-icon">✦</span><input id="newCategoryName" maxlength="60" placeholder="เช่น ขนมขบเคี้ยว" required style="display:block;width:100%;box-sizing:border-box;min-height:46px;padding:.7rem .85rem;border:1px solid #cbd5e1;border-radius:10px;font:inherit;background:#fff" /></div></div>
+                <button class="primary-admin" type="submit" id="addCategoryButton" style="min-height:46px;white-space:nowrap">เพิ่มหมวดหมู่</button>
+              </form>
+              <div id="categoryList" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.9rem"></div>
+            </section>
+            <hr class="product-divider" />
+            <div class="catalog-grid" id="catalogGrid"></div>
+            <p style="color: #64748b; font-size: 0.84rem">
+              ข้อมูลสินค้าจะถูกบันทึกลง Backend และหน้า Home จะเห็นข้อมูลชุดเดียวกัน
+            </p>
+          </div>
+        </div>
+      </main>
+    </section>
+    <div class="toast" id="toast"></div>
+    <div id="deleteProductModal" style="display:none;position:fixed;inset:0;z-index:40;background:rgba(15,23,42,.62);place-items:center;padding:1rem">
+      <div style="width:min(430px,100%);background:#fff;border-radius:18px;padding:1.5rem;box-shadow:0 20px 60px rgba(15,23,42,.25);text-align:center">
+        <div style="font-size:2.4rem;margin-bottom:.4rem">⚠️</div>
+        <h3 style="margin:0 0 .55rem;color:#c62828">ยืนยันการปิดการขาย</h3>
+        <p id="deleteProductMessage" style="margin:0;color:#64748b;line-height:1.7"></p>
+        <div style="display:flex;gap:.6rem;justify-content:center;margin-top:1.2rem">
+          <button type="button" class="logout-btn" id="cancelDeleteProductButton">ยกเลิก</button>
+          <button type="button" class="danger-admin" id="confirmDeleteProductButton">ยืนยันปิดการขาย</button>
+        </div>
+      </div>
+    </div>
+    <div id="passwordModal" style="display:none;position:fixed;inset:0;z-index:30;background:rgba(15,23,42,.62);place-items:center;padding:1rem">
+      <form id="passwordForm" style="width:min(430px,100%);background:#fff;border-radius:18px;padding:1.5rem;box-shadow:0 20px 60px rgba(15,23,42,.25)">
+        <h3 style="margin:0 0 1rem;color:#c62828">เปลี่ยนรหัสผ่าน Admin</h3>
+        <label for="currentPassword">รหัสผ่านเดิม</label><input id="currentPassword" type="password" required autocomplete="current-password" style="width:100%;box-sizing:border-box;padding:.7rem;border:1px solid #cbd5e1;border-radius:9px;margin:.35rem 0 .8rem">
+        <label for="newPassword">รหัสผ่านใหม่ (อย่างน้อย 8 ตัวอักษร)</label><input id="newPassword" type="password" minlength="8" required autocomplete="new-password" style="width:100%;box-sizing:border-box;padding:.7rem;border:1px solid #cbd5e1;border-radius:9px;margin:.35rem 0 .8rem">
+        <label for="confirmPassword">ยืนยันรหัสผ่านใหม่</label><input id="confirmPassword" type="password" minlength="8" required autocomplete="new-password" style="width:100%;box-sizing:border-box;padding:.7rem;border:1px solid #cbd5e1;border-radius:9px;margin:.35rem 0 1rem">
+        <div style="display:flex;gap:.6rem;justify-content:flex-end"><button type="button" class="logout-btn" id="cancelPasswordButton">ยกเลิก</button><button type="submit" class="primary-admin" id="savePasswordButton">บันทึกรหัสผ่าน</button></div>
+      </form>
+    </div>
+    <script src="../js/api.js"></script>
+    <script>
+      const $ = (id) => document.getElementById(id);
+      let allOrders = [], allProducts = [], allUsers = [], allCategories = [], editingProductId = null, selectedProductImage = '', pendingProductImageFile = null, pendingDeleteProductId = null;
+      const statuses = ['สั่งซื้อสำเร็จ','กำลังเตรียมพัสดุ','กำลังจัดส่งสินค้า','จัดส่งสำเร็จ'];
+      function escapeHTML(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+      function showToast(message){$('toast').textContent=message;$('toast').classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2200);}
+      function imageUrl(value){if(!value)return '';return value.startsWith('http')?value:`${API_BASE_URL.replace('/api','')}${value}`;}
+      async function adminRequest(path, options = {}) { const token = localStorage.getItem('adminAccessToken'); const headers = { ...(options.body instanceof FormData ? {} : {'Content-Type':'application/json'}), ...(options.headers || {}) }; if (token) headers.Authorization = `Bearer ${token}`; const response = await fetch(`${API_BASE_URL}${path}`, {...options, headers}); const data = await response.json().catch(() => ({})); if (!response.ok) throw new Error(data.error || `เรียก API ไม่สำเร็จ (${response.status})`); return data; }
+      function statusOptions(current){return statuses.map(s=>`<option value="${s}" ${s===current?'selected':''}>${s}</option>`).join('');}
+      function requireAdminSession(){if(!localStorage.getItem('adminAccessToken')){ $('adminLogin').style.display='grid'; $('adminShell').style.display='none'; return false; } return true;}
+      async function adminLogin(){const username=$('adminUser').value.trim(),password=$('adminPass').value;if(!username||!password)return showToast('กรุณากรอกชื่อผู้ใช้และรหัสผ่าน');$('adminLoginButton').disabled=true;try{const data=await adminRequest('/auth/login',{method:'POST',body:JSON.stringify({username,password})});if(data.user.role!=='admin'){clearSession();throw new Error('บัญชีนี้ไม่มีสิทธิ์ Admin');}localStorage.setItem('adminAccessToken', data.token);localStorage.setItem('adminUser', JSON.stringify(data.user));await openAdmin();}catch(e){showToast(e.message)}finally{$('adminLoginButton').disabled=false;}}
+      async function openAdmin(){if(!requireAdminSession())return;try{const me=(await adminRequest('/auth/me')).user;if(me.role!=='admin')throw new Error('ไม่มีสิทธิ์ Admin');$('adminLogin').style.display='none';$('adminShell').style.display='block';await refreshAll();}catch(e){localStorage.removeItem('adminAccessToken');localStorage.removeItem('adminUser');$('adminLogin').style.display='grid';$('adminShell').style.display='none';showToast(e.message);}}
+      async function refreshAll(){await Promise.all([loadOrders(),loadUsers(),loadProducts(),loadCategories()]);}
+      async function loadOrders(){const data=await adminRequest('/orders/all');allOrders=data.orders||[];renderOrders();renderStats();}
+      async function loadUsers(){const data=await adminRequest('/auth/users');allUsers=data.users||[];renderUsers();renderStats();}
+      async function loadProducts(){const data=await adminRequest('/products');allProducts=data.products||[];renderCatalog();renderStats();}
+      function renderCategoryOptions(selected){const select=$('newProductCategory');const current=selected??select.value;select.innerHTML=allCategories.length?allCategories.map(c=>`<option value="${escapeHTML(c.slug)}">${escapeHTML(c.name)}</option>`).join(''):'<option value="">ยังไม่มีหมวดหมู่</option>';if(allCategories.some(c=>c.slug===current))select.value=current;}
+      async function loadCategories(){const data=await adminRequest('/categories');allCategories=data.categories||[];renderCategoryOptions();$('categoryList').innerHTML=allCategories.length?allCategories.map(c=>`<span style="display:inline-flex;align-items:center;gap:.45rem;padding:.42rem .65rem;border-radius:999px;background:#fff;border:1px solid #cbd5e1"><b>${escapeHTML(c.name)}</b><button type="button" title="ลบหมวดหมู่" onclick="deleteCategory(${c.id})" style="border:0;background:transparent;color:#dc2626;cursor:pointer;font-weight:700">×</button></span>`).join(''):'<small style="color:#64748b">ยังไม่มีหมวดหมู่</small>';if(allProducts.length)renderCatalog();}
+      function categoryLabel(slug){const category=allCategories.find(item=>item.slug===slug);return category?category.name:slug;}
+      async function addCategory(event){event.preventDefault();const input=$('newCategoryName');const name=input.value.trim();if(!name)return;const button=$('addCategoryButton');button.disabled=true;try{await adminRequest('/categories',{method:'POST',body:JSON.stringify({name})});input.value='';await loadCategories();showToast('เพิ่มหมวดหมู่แล้ว');}catch(error){showToast(error.message);}finally{button.disabled=false;}}
+      async function deleteCategory(id){if(!confirm('ยืนยันลบหมวดหมู่นี้หรือไม่?'))return;try{await adminRequest(`/categories/${id}`,{method:'DELETE'});await loadCategories();showToast('ลบหมวดหมู่แล้ว');}catch(error){showToast(error.message);}}
+      function renderStats(){$('statOrders').textContent=allOrders.length;$('statSales').textContent='฿'+allOrders.reduce((sum,o)=>sum+Number(o.total||0),0).toLocaleString('th-TH');$('statUsers').textContent=allUsers.length;$('statPending').textContent=allOrders.filter(o=>!String(o.status||'').includes('สำเร็จ')).length;}
+      function orderRows(list){if(!list.length)return '<div class="empty">ยังไม่มีออเดอร์</div>';return `<table class="data-table"><thead><tr><th>ออเดอร์</th><th>ลูกค้า</th><th>รายการ</th><th>ชำระเงิน/ที่อยู่</th><th>ยอดรวม</th><th>สถานะ</th></tr></thead><tbody>${list.map(o=>`<tr><td><b>#${o.id}</b><br><small>${escapeHTML(o.created_at||'-')}</small></td><td>${escapeHTML(o.customer_name||'-')}<br><small>${escapeHTML(o.customer_phone||'-')}</small></td><td class="order-items">${(o.items||[]).map(x=>`${escapeHTML(x.name)} × ${x.quantity}`).join('<br>')}</td><td><small>${escapeHTML(o.payment_method||'-')}<br>${escapeHTML(o.address||'-')}</small></td><td><b>฿${Number(o.total||0).toLocaleString('th-TH')}</b></td><td><select class="status-select" onchange="changeOrderStatus(${o.id},this.value)">${statusOptions(o.status)}</select></td></tr>`).join('')}</tbody></table>`;}
+      function renderOrders(){const q=($('orderSearch').value||'').toLowerCase(),f=$('orderFilter').value;const list=allOrders.filter(o=>(f==='all'||o.status===f)&&(`#${o.id} ${o.customer_name||''} ${o.customer_phone||''}`).toLowerCase().includes(q));$('ordersTable').innerHTML=orderRows(list);$('recentOrders').innerHTML=orderRows(allOrders.slice(0,5));}
+      async function changeOrderStatus(id,status){try{await adminRequest(`/orders/${id}/status`,{method:'PATCH',body:JSON.stringify({status})});await loadOrders();showToast('อัปเดตสถานะออเดอร์แล้ว');}catch(e){showToast(e.message);await loadOrders();}}
+      function renderUsers(){const q=($('userSearch').value||'').toLowerCase();const list=allUsers.filter(u=>`${u.username} ${u.name||''} ${u.email||''}`.toLowerCase().includes(q));$('usersTable').innerHTML=list.length?`<table class="data-table"><thead><tr><th>Username</th><th>ชื่อ</th><th>เบอร์โทร</th><th>อีเมล</th><th>สิทธิ์</th><th>ที่อยู่</th></tr></thead><tbody>${list.map(u=>`<tr><td><b>${escapeHTML(u.username)}</b></td><td>${escapeHTML(u.name||'-')}</td><td>${escapeHTML(u.phone||'-')}</td><td>${escapeHTML(u.email||'-')}</td><td>${escapeHTML(u.role||'customer')}</td><td>${escapeHTML(u.address||'-')}</td></tr>`).join('')}</tbody></table>`:'<div class="empty">ยังไม่มีผู้ใช้</div>';}
+      function renderCatalog(){if(!allProducts.length){$('catalogGrid').innerHTML='<div class="empty">ยังไม่มีสินค้า</div>';return;}$('catalogGrid').innerHTML=allProducts.map(p=>`<div class="catalog-item"><div class="catalog-visual">${p.image?`<img src="${escapeHTML(imageUrl(p.image))}" alt="${escapeHTML(p.name)}" style="max-width:100%;height:100px;object-fit:contain">`:`<span class="catalog-emoji">🛒</span>`}</div><b>${escapeHTML(p.name)}</b><br><span>฿${Number(p.price).toLocaleString('th-TH')}</span><br><small>${escapeHTML(categoryLabel(p.category))} · สต็อก ${p.stock}</small>${p.description?`<p class="catalog-description">${escapeHTML(p.description)}</p>`:''}<div class="catalog-actions"><button type="button" class="edit-admin" onclick="event.preventDefault();event.stopPropagation();editProduct(${Number(p.id)})">แก้ไข</button><button type="button" class="danger-admin" data-delete-product="${Number(p.id)}">ปิดการขาย</button></div></div>`).join('');$('catalogGrid').querySelectorAll('[data-delete-product]').forEach(button=>button.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();deleteProduct(Number(button.dataset.deleteProduct));}));}
+      function resetProductForm(){$('productForm').reset();$('newProductStock').value='0';$('productSubmitText').textContent='เพิ่มสินค้าใน Catalog';$('cancelEditButton').hidden=true;editingProductId=null;selectedProductImage='';pendingProductImageFile=null;$('newProductImagePreview').hidden=true;$('newProductImagePreviewImg').removeAttribute('src');}
+      function previewProductImage(source){selectedProductImage=source||'';$('newProductImagePreview').hidden=!source;if(source)$('newProductImagePreviewImg').src=source;else $('newProductImagePreviewImg').removeAttribute('src');}
+      async function uploadImage(file){const form=new FormData();form.append('image',file);const data=await adminRequest('/uploads/product-image',{method:'POST',body:form});return data.url;}
+      $('newProductImageUrl').addEventListener('input',e=>{pendingProductImageFile=null;selectedProductImage='';previewProductImage(e.target.value.trim());});
+      $('newProductImageFile').addEventListener('change',e=>{e.preventDefault();e.stopPropagation();const file=e.target.files[0];if(!file)return;if(!['image/jpeg','image/png','image/webp'].includes(file.type))return showToast('รองรับเฉพาะ JPG, PNG หรือ WebP');if(file.size>5*1024*1024)return showToast('รูปต้องไม่เกิน 5 MB');pendingProductImageFile=file;selectedProductImage='';$('newProductImageUrl').value='';previewProductImage(URL.createObjectURL(file));showToast('เลือกรูปแล้ว กดเพิ่มสินค้าเพื่ออัปโหลด');});
+      $('clearProductImage').addEventListener('click',()=>{$('newProductImageUrl').value='';$('newProductImageFile').value='';pendingProductImageFile=null;previewProductImage('');});
+      $('cancelEditButton').addEventListener('click',resetProductForm);
+      $('categoryForm').addEventListener('submit',addCategory);
+      $('productForm').addEventListener('submit',async e=>{
+        e.preventDefault();
+        const details=$('newProductDetails').value.split(/[,\n]/).map(x=>x.trim()).filter(Boolean);
+        const name=$('newProductName').value.trim();
+        const price=Number($('newProductPrice').value);
+        const stock=Number($('newProductStock').value);
+        if(!name||!Number.isFinite(price)||price<0||!Number.isInteger(stock)||stock<0)return showToast('กรุณากรอกชื่อ ราคา และสต็อกให้ถูกต้อง');
+        const editing=editingProductId!==null;
+        const submitButton=$('productForm').querySelector('button[type="submit"]');
+        submitButton.disabled=true;
+        try{
+          let image=pendingProductImageFile?'':(selectedProductImage||$('newProductImageUrl').value.trim());
+          if(pendingProductImageFile){showToast('กำลังอัปโหลดรูป...');image=await uploadImage(pendingProductImageFile);}
+          const product={name,price,stock,category:$('newProductCategory').value,image,description:$('newProductDescription').value.trim(),ingredients:$('newProductIngredients').value.trim(),details,isActive:true};
+          if(editing)await adminRequest(`/products/${editingProductId}`,{method:'PUT',body:JSON.stringify(product)});
+          else await adminRequest('/products',{method:'POST',body:JSON.stringify(product)});
+          showToast(editing?'แก้ไขสินค้าแล้ว':'เพิ่มสินค้าแล้ว');
+          resetProductForm();
+          await loadProducts();
+        }catch(err){showToast(err.message);}
+        finally{submitButton.disabled=false;}
+      });
+      function editProduct(id){
+        const p=allProducts.find(x=>Number(x.id)===Number(id));
+        if(!p)return;
+        editingProductId=Number(id);
+        pendingProductImageFile=null;
+        $('newProductImageFile').value='';
+        $('newProductName').value=p.name||'';
+        $('newProductPrice').value=p.price??0;
+        $('newProductStock').value=p.stock??0;
+        renderCategoryOptions(p.category||'grain');$('newProductCategory').value=p.category||'grain';
+        $('newProductDescription').value=p.description||'';
+        $('newProductIngredients').value=p.ingredients||'';
+        $('newProductDetails').value=(Array.isArray(p.details)?p.details:[]).join('\n');
+        $('newProductImageUrl').value=p.image||'';
+        selectedProductImage=p.image||'';
+        previewProductImage(imageUrl(p.image||''));
+        $('productSubmitText').textContent='บันทึกการแก้ไข';
+        $('cancelEditButton').hidden=false;
+        document.querySelector('#view-products').scrollIntoView({behavior:'smooth'});
+      }
+      function closeDeleteProductModal(){pendingDeleteProductId=null;$('deleteProductModal').style.display='none';}
+      function deleteProduct(id){const p=allProducts.find(x=>Number(x.id)===Number(id));if(!p)return;pendingDeleteProductId=Number(id);$('deleteProductMessage').textContent=`ต้องการปิดการขาย “${p.name}” ใช่หรือไม่? สินค้าจะไม่แสดงให้ลูกค้าเลือกซื้อ`;$('deleteProductModal').style.display='grid';}
+      async function confirmDeleteProduct(){
+        const id=Number(pendingDeleteProductId);
+        const p=allProducts.find(x=>Number(x.id)===id);
+        if(!id||!p)return;
+        const button=$('confirmDeleteProductButton');
+        button.disabled=true;
+        try{
+          await adminRequest(`/products/${id}`,{method:'DELETE'});
+          allProducts=allProducts.filter(item=>Number(item.id)!==id);
+          renderCatalog();
+          renderStats();
+          closeDeleteProductModal();
+          showToast('ปิดการขายสินค้าแล้ว');
+          await loadProducts();
+        }catch(e){showToast(e.message);}
+        finally{button.disabled=false;}
+      }
+      function closePasswordModal(){$('passwordModal').style.display='none';$('passwordForm').reset();}
+      $('changePasswordButton').addEventListener('click',()=>{$('passwordModal').style.display='grid';$('currentPassword').focus();});$('cancelPasswordButton').addEventListener('click',closePasswordModal);$('cancelDeleteProductButton').addEventListener('click',closeDeleteProductModal);$('confirmDeleteProductButton').addEventListener('click',confirmDeleteProduct);
+      $('passwordForm').addEventListener('submit',async e=>{e.preventDefault();const currentPassword=$('currentPassword').value,newPassword=$('newPassword').value,confirmPassword=$('confirmPassword').value;if(newPassword!==confirmPassword)return showToast('รหัสผ่านใหม่และการยืนยันไม่ตรงกัน');$('savePasswordButton').disabled=true;try{await adminRequest('/auth/change-password',{method:'PATCH',body:JSON.stringify({currentPassword,newPassword})});closePasswordModal();localStorage.removeItem('adminAccessToken');localStorage.removeItem('adminUser');showToast('เปลี่ยนรหัสผ่านสำเร็จ กรุณาเข้าสู่ระบบใหม่');setTimeout(()=>location.reload(),900);}catch(err){showToast(err.message);}finally{$('savePasswordButton').disabled=false;}});
+      $('adminLoginButton').addEventListener('click',adminLogin);$('adminPass').addEventListener('keydown',e=>{if(e.key==='Enter')adminLogin();});$('adminLogout').addEventListener('click',()=>{localStorage.removeItem('adminAccessToken');localStorage.removeItem('adminUser');location.reload();});
+      document.querySelectorAll('.admin-nav button').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.admin-nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.dashboard-view').forEach(x=>x.classList.remove('active'));$('view-'+btn.dataset.view).classList.add('active');}));
+      $('orderSearch').addEventListener('input',renderOrders);$('orderFilter').addEventListener('change',renderOrders);$('userSearch').addEventListener('input',renderUsers);openAdmin();
+    </script>
+  </body>
+</html>

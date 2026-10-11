@@ -1,0 +1,29 @@
+/* Sarinyapanich Neo-commerce UI — ใช้เสริม style.css เดิม */
+:root {
+  --neo-red: #dc2626;
+  --neo-red-dark: #991b1b;
+  --neo-ink: #172033;
+  --neo-muted: #64748b;
+  --neo-glass: rgba(255,255,255,.76);
+  --neo-line: rgba(148,163,184,.28);
+  --neo-glow: 0 0 0 4px rgba(220,38,38,.10);
+}
+
+body { background-image: radial-gradient(circle at 8% 4%, rgba(254,226,226,.52), transparent 24rem), radial-gradient(circle at 92% 92%, rgba(254,243,199,.42), transparent 26rem); }
+.header-bar, .auth-card, .profile-container, .history-container, .cart-container { backdrop-filter: blur(14px); background: var(--neo-glass); border-color: var(--neo-line); }
+.header-bar { position: relative; overflow: hidden; }
+.header-bar::before { content: ''; position: absolute; left: 0; top: 0; width: 34%; height: 2px; background: linear-gradient(90deg, transparent, var(--neo-red), transparent); animation: neoScan 4s ease-in-out infinite; }
+.nav-btn, .header-nav-btn, .btn-primary, .add-cart-btn, .hero-button { transition: transform .2s ease, box-shadow .2s ease, filter .2s ease; }
+.nav-btn:hover, .header-nav-btn:hover, .btn-primary:hover, .add-cart-btn:hover, .hero-button:hover { transform: translateY(-2px); filter: saturate(1.08); box-shadow: 0 8px 18px rgba(15,23,42,.14); }
+input:focus, textarea:focus, select:focus { outline: none; box-shadow: var(--neo-glow); }
+.product-card, .order-card, .stat-card { position: relative; overflow: hidden; }
+.product-card::after, .order-card::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.34), transparent 65%); transform: translateX(-120%); transition: transform .55s ease; }
+.product-card:hover::after, .order-card:hover::after { transform: translateX(120%); }
+.neo-toast { position: fixed; right: 1rem; bottom: 1rem; z-index: 2000; max-width: min(360px, calc(100vw - 2rem)); padding: .8rem 1rem; border: 1px solid rgba(255,255,255,.55); border-radius: 14px; color: #fff; background: rgba(23,32,51,.92); box-shadow: 0 12px 30px rgba(15,23,42,.22); backdrop-filter: blur(12px); animation: neoToastIn .25s ease both; }
+.neo-toast strong { display: block; margin-bottom: .1rem; color: #fecaca; }
+.neo-loading { color: transparent !important; background: linear-gradient(90deg, #f1f5f9 25%, #fff 50%, #f1f5f9 75%) !important; background-size: 200% 100% !important; animation: neoShimmer 1.2s infinite; border-radius: 8px; min-height: 1.2rem; }
+.neo-status-dot { display: inline-block; width: 8px; height: 8px; margin-right: .35rem; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 4px rgba(34,197,94,.13); }
+@keyframes neoScan { 0%,100% { transform: translateX(-20%); opacity: .35; } 50% { transform: translateX(210%); opacity: 1; } }
+@keyframes neoToastIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes neoShimmer { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }

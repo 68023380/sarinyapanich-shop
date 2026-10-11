@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ประวัติการสั่งซื้อ - ศริณญาพานิช</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+.header-bar { max-width: 900px; margin: 2rem auto 1rem auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-soft); gap: 1rem; }
+.logo-container { display: flex; align-items: center; gap: 0.8rem; min-width: 0; }
+.store-logo { width: 45px; height: 45px; object-fit: cover; border-radius: 50%; border: 2px solid var(--primary-red); flex-shrink: 0; }
+.header-actions { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+.header-nav-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 104px; padding: 0.55rem 0.9rem; border-radius: var(--radius-md); color: #fff; font-family: 'Kanit', sans-serif; font-weight: 600; font-size: 0.88rem; text-decoration: none; box-shadow: 0 2px 4px rgba(0,0,0,0.06); transition: transform 0.2s, opacity 0.2s, background 0.2s; }
+.header-nav-btn:hover { transform: translateY(-1px); opacity: 0.92; }
+.home-btn { background: var(--primary-red); }
+.cart-btn { background: #475569; }
+.history-container { max-width: 900px; margin: 0 auto 2rem auto; padding: 2rem; background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-soft); }
+.order-card { background: var(--bg-cream); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.5rem; }
+.order-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 0.8rem; margin-bottom: 1rem; gap: 1rem; }
+.order-item-row { display: flex; justify-content: space-between; align-items: center; padding: 0.3rem 0; font-size: 0.95rem; gap: 1rem; }
+.timeline-container { margin: 1.2rem 0; padding: 1rem; background: #fff; border-radius: var(--radius-md); border: 1px solid var(--border-color); }
+.timeline-steps { display: flex; justify-content: space-between; position: relative; margin-bottom: 0.5rem; }
+.timeline-steps::before { content: ''; position: absolute; top: 14px; left: 10%; right: 10%; height: 4px; background: #e2e8f0; z-index: 1; }
+.timeline-step { position: relative; z-index: 2; text-align: center; flex: 1; }
+.timeline-circle { width: 30px; height: 30px; border-radius: 50%; background: #e2e8f0; color: #94a3b8; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 0.8rem; font-weight: 700; border: 2px solid #fff; }
+.timeline-step.active .timeline-circle { background: var(--primary-red); color: #fff; }
+.timeline-step.completed .timeline-circle { background: #10b981; color: #fff; }
+.timeline-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 5px; font-weight: 500; }
+.timeline-step.active .timeline-label { color: var(--primary-red); font-weight: 700; }
+.timeline-step.completed .timeline-label { color: #10b981; font-weight: 600; }
+@media (max-width: 650px) {
+  .header-bar { margin: 1rem; padding: .9rem 1rem; align-items: stretch; flex-direction: column; }
+  .logo-container { justify-content: center; }
+  .header-actions { width: 100%; }
+  .header-nav-btn { flex: 1; min-width: 0; }
+  .history-container { margin: 0 1rem 1.5rem; padding: 1.2rem; }
+  .order-header { align-items: flex-start; flex-direction: column; }
+}
+
+/* Extra history effects */
+.header-bar,.history-container{position:relative;overflow:hidden}.header-bar::after{content:'✦';position:absolute;right:24px;top:10px;color:#e4a11b;font-size:1.4rem;animation:twinkle 1.8s ease-in-out infinite;pointer-events:none}.store-logo{transition:transform .3s,box-shadow .3s;animation:floatLogo 3.5s ease-in-out infinite;cursor:pointer}.store-logo:hover,.store-logo.is-bouncing{transform:rotate(-8deg) scale(1.12);box-shadow:0 6px 18px rgba(198,40,40,.25)}.history-brand-title{background:linear-gradient(90deg,#b71c1c,#e09b22,#b71c1c);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:textShine 4s linear infinite}.history-heading{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap}.history-stats{display:flex;gap:.5rem;flex-wrap:wrap;margin:-.6rem 0 1.5rem}.stat-pill{padding:.3rem .75rem;border-radius:50px;background:#fff0f0;color:var(--primary-red,#c62828);font-size:.8rem;font-weight:600}.order-card{animation:orderIn .45s ease both;transition:transform .2s,box-shadow .2s}.order-card:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(100,50,30,.1)}.order-card:nth-child(2n){animation-delay:.08s}.order-card:nth-child(3n){animation-delay:.16s}.order-header{position:relative}.order-id-copy{cursor:pointer;transition:color .2s}.order-id-copy:hover{color:#e09b22!important}.timeline-container{box-shadow:inset 0 0 0 1px rgba(198,40,40,.04)}.timeline-step.active .timeline-circle{animation:activePulse 1.8s ease-in-out infinite}.timeline-step.completed .timeline-circle{box-shadow:0 0 0 3px rgba(16,185,129,.12)}.history-toast{position:fixed;left:50%;bottom:24px;z-index:20;transform:translate(-50%,18px);opacity:0;pointer-events:none;background:#1f2937;color:#fff;padding:.65rem 1rem;border-radius:50px;font-size:.88rem;transition:.3s}.history-toast.show{opacity:1;transform:translate(-50%,0)}.empty-history{animation:orderIn .5s ease both}@keyframes floatLogo{50%{transform:translateY(-3px)}}@keyframes twinkle{50%{transform:scale(1.45) rotate(18deg);opacity:.45}}@keyframes textShine{to{background-position:200% center}}@keyframes orderIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes activePulse{50%{box-shadow:0 0 0 6px rgba(198,40,40,.13)}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<div class="header-bar">
+  <div class="logo-container">
+    <img src="pic/Logo.webp" alt="โลโก้" class="store-logo" id="storeLogo" onerror="this.onerror=null;this.src='Logo.webp';">
+    <h1 class="history-brand-title" style="font-size:1.3rem; margin:0; white-space:nowrap;">ศริณญาพานิช 🛒</h1>
+  </div>
+  <nav class="header-actions" aria-label="เมนูหลัก">
+    <a href="index.html" class="header-nav-btn home-btn">⌂ หน้าแรก</a>
+    <a href="cart.html" class="header-nav-btn cart-btn">🛒 ตะกร้า</a>
+  </nav>
+</div>
+
+<div class="history-container">
+  <div class="history-heading"><h2 style="color:var(--primary-red); margin-bottom:1.5rem;">📜 ประวัติการสั่งซื้อของคุณ</h2><span class="stat-pill" id="orderCount">0 ออเดอร์</span></div>
+  <div class="history-stats"><span class="stat-pill" id="successCount">สำเร็จ 0</span><span class="stat-pill" id="totalSpent">ยอดรวม ฿0</span></div>
+  <div id="historyList"></div>
+<div class="history-toast" id="historyToast" role="status" aria-live="polite"></div>
+</div>
+
+<div id="customAlertModal" class="modal-overlay" style="display:none;">
+  <div class="modal-card" style="text-align:center;">
+    <h3 id="alertTitle" style="margin-bottom:0.8rem; color:var(--primary-red);">แจ้งเตือน</h3>
+    <p id="alertMessage" style="color:var(--text-dark); margin-bottom:1.5rem; white-space:pre-line;"></p>
+    <button class="btn-primary" onclick="closeAlertModal()">ตกลง</button>
+  </div>
+</div>
+
+<script>
+let alertCallback = null;
+function showAlert(title, message, callback = null) {
+  document.getElementById('alertTitle').innerText = title;
+  document.getElementById('alertMessage').innerText = message;
+  document.getElementById('customAlertModal').style.display = 'flex';
+  alertCallback = callback;
+}
+function closeAlertModal() {
+  document.getElementById('customAlertModal').style.display = 'none';
+  if (alertCallback) { const callback = alertCallback; alertCallback = null; callback(); }
+}
+function readJSON(key, fallback) {
+  try { return JSON.parse(localStorage.getItem(key)) || fallback; }
+  catch (error) { console.error('อ่านข้อมูลไม่สำเร็จ:', key, error); return fallback; }
+}
+
+
+const storeLogo=document.getElementById('storeLogo');
+storeLogo.addEventListener('click',()=>{storeLogo.classList.remove('is-bouncing');void storeLogo.offsetWidth;storeLogo.classList.add('is-bouncing');setTimeout(()=>storeLogo.classList.remove('is-bouncing'),500)});
+function showHistoryToast(message){const toast=document.getElementById('historyToast');toast.textContent=message;toast.classList.add('show');clearTimeout(window.historyToastTimer);window.historyToastTimer=setTimeout(()=>toast.classList.remove('show'),1700)}
+function updateHistoryStats(history){const success=history.filter(order=>String(order.status).includes('สำเร็จ')||String(order.status).includes('รับแล้ว')).length;const total=history.reduce((sum,order)=>sum+(Number(order.total)||0),0);document.getElementById('orderCount').textContent=`${history.length} ออเดอร์`;document.getElementById('successCount').textContent=`สำเร็จ ${success}`;document.getElementById('totalSpent').textContent=`ยอดรวม ฿${total.toLocaleString('th-TH')}`}
+
+const currentUser = readJSON('currentUser', null);
+if (!currentUser || !currentUser.username) {
+  showAlert('เกิดข้อผิดพลาด ❌', 'กรุณาเข้าสู่ระบบก่อนครับ', () => { window.location.href = 'login.html'; });
+}
+
+function renderHistory() {
+  if (!currentUser || !currentUser.username) return;
+  const history = readJSON('history_' + currentUser.username, []);
+  const historyList = document.getElementById('historyList');
+  updateHistoryStats(history);
+  if (history.length === 0) {
+    historyList.innerHTML = '<p class="empty-history" style="text-align:center; color:var(--text-muted); padding:2rem;">ยังไม่มีประวัติการสั่งซื้อสินค้า</p>';
+    return;
+  }
+
+  historyList.innerHTML = history.map((order, orderIndex) => {
+    const itemsHtml = order.items.map(item => `<div class="order-item-row"><span>${item.name} (x${item.quantity})</span><span style="font-weight:600;">฿${(item.price * item.quantity).toLocaleString('th-TH')}</span></div>`).join('');
+    let stepState = [1, 0, 0, 0];
+    if (order.status.includes('เตรียม')) stepState = [1, 1, 0, 0];
+    if (order.status.includes('จัดส่ง') || order.status.includes('กำลัง')) stepState = [1, 1, 1, 0];
+    if (order.status.includes('สำเร็จ') || order.status.includes('รับแล้ว')) stepState = [1, 1, 1, 1];
+    const getStepClass = (idx) => {
+      if (stepState[idx] === 1 && idx === stepState.lastIndexOf(1)) return 'timeline-step active';
+      if (stepState[idx] === 1) return 'timeline-step completed';
+      return 'timeline-step';
+    };
+    return `
+      <div class="order-card">
+        <div class="order-header">
+          <div><div class="order-id-copy" title="คลิกเพื่อคัดลอกเลขออเดอร์" onclick="copyOrderId('${order.orderId}')" style="font-weight:700; color:var(--primary-red);">${order.orderId}</div><span style="font-size:0.8rem; background:#e2e8f0; padding:2px 6px; border-radius:4px;">${order.paymentMethod || order.payment?.method || 'ชำระเงิน'}</span></div>
+          <div style="font-size:0.85rem; color:var(--text-muted);">📅 ${order.date}</div>
+        </div>
+        <div style="margin-bottom:0.8rem;">${itemsHtml}</div>
+        <div style="font-size:.85rem;color:var(--text-muted);margin:.6rem 0;">${order.fulfillmentType ? `รับสินค้า: ${order.fulfillmentType}` : ''}${order.recipient ? ` · ผู้รับ: ${order.recipient.name} (${order.recipient.phone})` : ''}</div>
+        <div class="timeline-container">
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:0.5rem;">สถานะ: <span style="color:var(--primary-red);">${order.status}</span></div>
+          <div class="timeline-steps">
+            <div class="${getStepClass(0)}"><div class="timeline-circle">1</div><div class="timeline-label">สั่งซื้อ</div></div>
+            <div class="${getStepClass(1)}"><div class="timeline-circle">2</div><div class="timeline-label">เตรียมของ</div></div>
+            <div class="${getStepClass(2)}"><div class="timeline-circle">3</div><div class="timeline-label">จัดส่ง</div></div>
+            <div class="${getStepClass(3)}"><div class="timeline-circle">4</div><div class="timeline-label">สำเร็จ</div></div>
+          </div>
+        </div>
+        <div style="text-align:right; margin-top:0.8rem; font-weight:700; color:var(--primary-red);">รวม: ฿${Number(order.total).toLocaleString('th-TH')}</div>
+      </div>`;
+  }).join('');
+}
+function copyOrderId(orderId){if(navigator.clipboard){navigator.clipboard.writeText(orderId).then(()=>showHistoryToast(`คัดลอก ${orderId} แล้ว`));}else{showHistoryToast(orderId)}}
+renderHistory();
+</script>
+</body>
+</html>

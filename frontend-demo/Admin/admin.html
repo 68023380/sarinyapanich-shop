@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - ศริณญาพานิช</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <section class="admin-login" id="adminLogin">
+      <div class="login-card">
+        <img src="pic/Logo.webp" alt="โลโก้ร้าน" />
+        <h1 style="color: #c62828; margin: 0.7rem 0 0.2rem">Admin Prototype</h1>
+        <p style="color: #64748b; margin-bottom: 1rem">
+          สำหรับทดสอบระบบร้านค้าเท่านั้น
+        </p>
+        <input
+          id="adminUser"
+          placeholder="ชื่อผู้ใช้แอดมิน"
+          autocomplete="username"
+        /><input
+          id="adminPass"
+          type="password"
+          placeholder="รหัสผ่าน"
+          autocomplete="current-password"
+        /><button class="btn-primary" id="adminLoginButton">
+          เข้าสู่ระบบแอดมิน</button
+        ><small style="display: block; margin-top: 1rem; color: #64748b"
+          >ทดสอบ: admin / admin123</small
+        >
+      </div>
+    </section>
+    <section class="admin-shell" id="adminShell">
+      <header class="admin-topbar">
+        <div class="admin-brand">
+          <img src="pic/Logo.webp" alt="โลโก้" />
+          <div>
+            <strong>ศริณญาพานิช</strong><br /><small
+              >Admin Prototype · localStorage</small
+            >
+          </div>
+        </div>
+        <nav class="admin-nav">
+          <button class="active" data-view="overview">ภาพรวม</button
+          ><button data-view="orders">ออเดอร์</button
+          ><button data-view="users">ผู้ใช้</button
+          ><button data-view="products">สินค้า</button>
+        </nav>
+        <button class="logout-btn" id="adminLogout">ออกจากระบบ</button>
+      </header>
+      <main class="admin-content">
+        <div class="dashboard-view active" id="view-overview">
+          <h2>ภาพรวมร้าน</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <small>ออเดอร์ทั้งหมด</small>
+              <div class="number" id="statOrders">0</div>
+            </div>
+            <div class="stat-card">
+              <small>ยอดขายรวม</small>
+              <div class="number" id="statSales">฿0</div>
+            </div>
+            <div class="stat-card">
+              <small>ลูกค้า</small>
+              <div class="number" id="statUsers">0</div>
+            </div>
+            <div class="stat-card">
+              <small>รอดำเนินการ</small>
+              <div class="number" id="statPending">0</div>
+            </div>
+          </div>
+          <div class="admin-card">
+            <h3>ออเดอร์ล่าสุด</h3>
+            <div id="recentOrders"></div>
+          </div>
+        </div>
+        <div class="dashboard-view" id="view-orders">
+          <h2>จัดการออเดอร์</h2>
+          <div class="admin-card">
+            <div class="toolbar">
+              <input
+                id="orderSearch"
+                placeholder="ค้นหาเลขออเดอร์ / ชื่อผู้ใช้"
+              /><select id="orderFilter" class="status-select">
+                <option value="all">ทุกสถานะ</option>
+                <option>สั่งซื้อสำเร็จ</option>
+                <option>กำลังเตรียมพัสดุ</option>
+                <option>กำลังจัดส่งสินค้า</option>
+                <option>จัดส่งสำเร็จ</option>
+              </select>
+            </div>
+            <div id="ordersTable"></div>
+          </div>
+        </div>
+        <div class="dashboard-view" id="view-users">
+          <h2>จัดการผู้ใช้</h2>
+          <div class="admin-card">
+            <div class="toolbar">
+              <input id="userSearch" placeholder="ค้นหาชื่อผู้ใช้ / ชื่อจริง" />
+            </div>
+            <div id="usersTable"></div>
+          </div>
+        </div>
+        <div class="dashboard-view" id="view-products">
+          <h2>จัดการสินค้าแบบ Prototype</h2>
+          <div class="admin-card">
+            <div class="product-form-heading">
+              <div>
+                <h3>เพิ่มสินค้าใหม่</h3>
+                <p>กรอกข้อมูลสินค้าให้ครบ เพื่อให้แสดงรายละเอียดได้สวยและชัดเจน</p>
+              </div>
+              <span class="form-badge">Catalog</span>
+            </div>
+            <form class="admin-form product-form" id="productForm">
+              <div>
+                <label for="newProductName">ชื่อสินค้า</label>
+                <input id="newProductName" placeholder="เช่น ข้าวหอมมะลิ 5 กก." required />
+              </div>
+              <div>
+                <label for="newProductPrice">ราคา (บาท)</label>
+                <input id="newProductPrice" type="number" min="0" placeholder="0" required />
+              </div>
+              <div>
+                <label for="newProductCategory">หมวดหมู่</label>
+                <select id="newProductCategory">
+                  <option value="grain">ข้าวและธัญพืช</option>
+                  <option value="oil">เครื่องปรุง/น้ำมัน</option>
+                  <option value="fresh">ไข่และอาหารสด</option>
+                  <option value="canned">อาหารกระป๋อง</option>
+                </select>
+              </div>
+              <div class="full image-fields">
+                <label for="newProductImageUrl">รูปสินค้า</label>
+                <div class="image-input-row">
+                  <input id="newProductImageUrl" type="url" placeholder="วาง URL รูปภาพ เช่น https://.../product.jpg" />
+                  <span class="or-divider">หรือ</span>
+                  <label class="file-picker" for="newProductImageFile">เลือกรูปจากเครื่อง</label>
+                  <input id="newProductImageFile" type="file" accept="image/*" hidden />
+                </div>
+                <small class="field-hint">รองรับ JPG, PNG, WebP ขนาดไม่เกิน 3 MB — ถ้าไม่ใส่รูปจะใช้ Emoji แทน</small>
+                <div class="image-preview-wrap" id="newProductImagePreview" hidden>
+                  <img id="newProductImagePreviewImg" alt="ตัวอย่างรูปสินค้า" />
+                  <button type="button" class="clear-image" id="clearProductImage">ล้างรูป</button>
+                </div>
+              </div>
+              <div class="full">
+                <label for="newProductDescription">รายละเอียดสินค้า</label>
+                <textarea id="newProductDescription" rows="4" placeholder="เขียนคำอธิบายสินค้า จุดเด่น หรือวิธีใช้งาน"></textarea>
+              </div>
+              <div>
+                <label for="newProductIngredients">ส่วนประกอบ</label>
+                <input id="newProductIngredients" placeholder="เช่น ข้าวหอมมะลิ 100%" />
+              </div>
+              <div>
+                <label for="newProductDetails">ข้อมูลเพิ่มเติม</label>
+                <input id="newProductDetails" placeholder="เช่น น้ำหนักสุทธิ 5 กก." />
+              </div>
+              <div class="full product-form-actions">
+                <button class="primary-admin" type="submit">
+                  <span id="productSubmitText">เพิ่มสินค้าใน Catalog</span>
+                </button>
+                <button class="secondary-admin" type="button" id="cancelEditButton" hidden>ยกเลิกแก้ไข</button>
+              </div>
+            </form>
+            <hr class="product-divider" />
+            <div class="catalog-grid" id="catalogGrid"></div>
+            <p style="color: #64748b; font-size: 0.84rem">
+              หมายเหตุ: Catalog นี้เก็บใน <code>adminProducts</code> เพื่อทดสอบ
+              หากต้องการให้หน้า Home ใช้รายการนี้ ต้องเชื่อมหน้า Home
+              ให้โหลดคีย์นี้แทนรายการ hardcode
+            </p>
+          </div>
+        </div>
+      </main>
+    </section>
+    <div class="toast" id="toast"></div>
+    <script>
+      const $ = (id) => document.getElementById(id);
+      const adminKey = "adminSession";
+      let allOrders = [];
+      const defaultProducts = [
+        {
+          id: 1,
+          name: "ข้าวหอมมะลิ 5 กก.",
+          price: 189,
+          category: "grain",
+          emoji: "🍚",
+        },
+        {
+          id: 2,
+          name: "ข้าวเหนียว 2 กก.",
+          price: 79,
+          category: "grain",
+          emoji: "🌾",
+        },
+        {
+          id: 3,
+          name: "น้ำมันพืช 1 ลิตร",
+          price: 55,
+          category: "oil",
+          emoji: "🫗",
+        },
+        {
+          id: 4,
+          name: "ไข่ไก่ เบอร์ 2 แพ็ก 10 ฟอง",
+          price: 52,
+          category: "fresh",
+          emoji: "🥚",
+        },
+        {
+          id: 5,
+          name: "ปลากระป๋องในซอสมะเขือเทศ",
+          price: 25,
+          category: "canned",
+          emoji: "🥫",
+        },
+      ];
+      function readJSON(key, fallback) {
+        try {
+          return JSON.parse(localStorage.getItem(key)) || fallback;
+        } catch {
+          return fallback;
+        }
+      }
+      function showToast(msg) {
+        $("toast").textContent = msg;
+        $("toast").classList.add("show");
+        clearTimeout(window.toastTimer);
+        window.toastTimer = setTimeout(
+          () => $("toast").classList.remove("show"),
+          1800,
+        );
+      }
+      function escapeHTML(value) {
+        return String(value ?? "").replace(
+          /[&<>'"]/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              "'": "&#39;",
+              '"': "&quot;",
+            })[c],
+        );
+      }
+      function collectOrders() {
+        const users = readJSON("usersList", []);
+        return users
+          .flatMap((user) =>
+            readJSON("history_" + user.username, []).map((order) => ({
+              ...order,
+              username: user.username,
+              userName: user.name || user.username,
+            })),
+          )
+          .sort((a, b) => String(b.date).localeCompare(String(a.date)));
+      }
+      function statusOptions(current) {
+        return [
+          "สั่งซื้อสำเร็จ",
+          "กำลังเตรียมพัสดุ",
+          "กำลังจัดส่งสินค้า",
+          "จัดส่งสำเร็จ",
+        ]
+          .map(
+            (s) => `<option ${s === current ? "selected" : ""}>${s}</option>`,
+          )
+          .join("");
+      }
+      function orderRows(orders) {
+        if (!orders.length) return '<div class="empty">ยังไม่มีออเดอร์</div>';
+        return `<table class="data-table"><thead><tr><th>ออเดอร์</th><th>ลูกค้า</th><th>รายการ</th><th>รับสินค้า/ชำระเงิน</th><th>ยอดรวม</th><th>สถานะ</th></tr></thead><tbody>${orders.map((o, i) => `<tr><td><b>${escapeHTML(o.orderId)}</b><br><small>${escapeHTML(o.date)}</small></td><td>${escapeHTML(o.userName)}<br><small>${escapeHTML(o.username)}</small></td><td class="order-items">${(o.items || []).map((x) => `${escapeHTML(x.name)} × ${x.quantity}`).join("<br>")}</td><td><small>${escapeHTML(o.fulfillmentType || "-")}<br>${escapeHTML(o.payment?.method || o.paymentMethod || "-")}<br>${escapeHTML(o.recipient?.name || o.customerDetails?.name || "-")} ${escapeHTML(o.recipient?.phone || "")}</small>${o.payment?.slipData ? `<br><img class="payment-slip" src="${o.payment.slipData}" alt="สลิป" onclick="window.open(this.src)">` : ""}</td><td><b>฿${Number(o.total || 0).toLocaleString("th-TH")}</b></td><td><select class="status-select" onchange="changeOrderStatus('${escapeHTML(o.username)}','${escapeHTML(o.orderId)}',this.value)">${statusOptions(o.status)}</select></td></tr>`).join("")}</tbody></table>`;
+      }
+      function renderOrders() {
+        allOrders = collectOrders();
+        const q = ($("orderSearch").value || "").toLowerCase(),
+          f = $("orderFilter").value;
+        const filtered = allOrders.filter(
+          (o) =>
+            (f === "all" || o.status === f) &&
+            `${o.orderId} ${o.username} ${o.userName}`
+              .toLowerCase()
+              .includes(q),
+        );
+        $("ordersTable").innerHTML = orderRows(filtered);
+        $("statOrders").textContent = allOrders.length;
+        $("statSales").textContent =
+          "฿" +
+          allOrders
+            .reduce((s, o) => s + Number(o.total || 0), 0)
+            .toLocaleString("th-TH");
+        $("statPending").textContent = allOrders.filter(
+          (o) => !String(o.status).includes("สำเร็จ"),
+        ).length;
+        const recent = allOrders.slice(0, 5);
+        $("recentOrders").innerHTML = orderRows(recent).replace(
+          /<table class="data-table">[\s\S]*?<tbody>/,
+          '<table class="data-table"><thead><tr><th>ออเดอร์</th><th>ลูกค้า</th><th>รายการ</th><th>รับสินค้า/ชำระเงิน</th><th>ยอดรวม</th><th>สถานะ</th></tr></thead><tbody>',
+        );
+      }
+      function changeOrderStatus(username, orderId, status) {
+        const key = "history_" + username,
+          history = readJSON(key, []),
+          item = history.find((o) => o.orderId === orderId);
+        if (!item) return;
+        item.status = status;
+        localStorage.setItem(key, JSON.stringify(history));
+        showToast("อัปเดตสถานะแล้ว");
+        renderOrders();
+      }
+      function renderUsers() {
+        const q = ($("userSearch").value || "").toLowerCase(),
+          users = readJSON("usersList", []).filter((u) =>
+            `${u.username} ${u.name} ${u.email}`.toLowerCase().includes(q),
+          );
+        $("statUsers").textContent = readJSON("usersList", []).length;
+        $("usersTable").innerHTML = users.length
+          ? `<table class="data-table"><thead><tr><th>ผู้ใช้</th><th>ชื่อ-นามสกุล</th><th>โทรศัพท์</th><th>อีเมล</th><th>ที่อยู่</th></tr></thead><tbody>${users.map((u) => `<tr><td><b>${escapeHTML(u.username)}</b></td><td>${escapeHTML(u.name || "-")}</td><td>${escapeHTML(u.phone || "-")}</td><td>${escapeHTML(u.email || "-")}</td><td>${escapeHTML(u.address || "-")}</td></tr>`).join("")}</tbody></table>`
+          : '<div class="empty">ยังไม่มีผู้ใช้</div>';
+      }
+      function getCatalog() {
+        return readJSON("adminProducts", defaultProducts);
+      }
+      let editingProductIndex = -1;
+      let selectedProductImage = "";
+      function renderCatalog() {
+        $("catalogGrid").innerHTML = getCatalog()
+          .map(
+            (p, i) =>
+              `<div class="catalog-item"><div class="catalog-visual">${p.image ? `<img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}" onerror="this.style.display='none';this.nextElementSibling.hidden=false">` : ""}<span class="catalog-emoji" ${p.image ? "hidden" : ""}>${escapeHTML(p.emoji || "🛒")}</span></div><b>${escapeHTML(p.name)}</b><br><span>฿${Number(p.price).toLocaleString("th-TH")}</span><br><small>${escapeHTML(p.category)}</small>${p.description ? `<p class="catalog-description">${escapeHTML(p.description)}</p>` : ""}${p.ingredients ? `<small class="catalog-meta"><b>ส่วนประกอบ:</b> ${escapeHTML(p.ingredients)}</small>` : ""}${p.details ? `<small class="catalog-meta"><b>ข้อมูล:</b> ${escapeHTML(p.details)}</small>` : ""}<div class="catalog-actions"><button class="edit-admin" onclick="editProduct(${i})">แก้ไข</button><button class="danger-admin" onclick="deleteProduct(${i})">ลบ</button></div></div>`,
+          )
+          .join("");
+      }
+      function resetProductForm() {
+        $("productForm").reset();
+        $("productSubmitText").textContent = "เพิ่มสินค้าใน Catalog";
+        $("cancelEditButton").hidden = true;
+        editingProductIndex = -1;
+        selectedProductImage = "";
+        $("newProductImagePreview").hidden = true;
+        $("newProductImagePreviewImg").removeAttribute("src");
+      }
+      function previewProductImage(source) {
+        selectedProductImage = source || "";
+        const preview = $("newProductImagePreview");
+        const image = $("newProductImagePreviewImg");
+        if (source) {
+          image.src = source;
+          preview.hidden = false;
+        } else {
+          image.removeAttribute("src");
+          preview.hidden = true;
+        }
+      }
+      $("newProductImageUrl").addEventListener("input", (e) => {
+        if (e.target.value.trim()) previewProductImage(e.target.value.trim());
+      });
+      $("newProductImageFile").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (!file.type.startsWith("image/")) {
+          showToast("กรุณาเลือกไฟล์รูปภาพเท่านั้น");
+          e.target.value = "";
+          return;
+        }
+        if (file.size > 3 * 1024 * 1024) {
+          showToast("รูปภาพต้องมีขนาดไม่เกิน 3 MB");
+          e.target.value = "";
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => previewProductImage(reader.result);
+        reader.readAsDataURL(file);
+      });
+      $("clearProductImage").addEventListener("click", () => {
+        $("newProductImageUrl").value = "";
+        $("newProductImageFile").value = "";
+        previewProductImage("");
+      });
+      $("cancelEditButton").addEventListener("click", resetProductForm);
+      $("productForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const items = getCatalog();
+        const product = {
+          id: editingProductIndex >= 0 ? items[editingProductIndex].id : Date.now(),
+          name: $("newProductName").value.trim(),
+          price: Number($("newProductPrice").value),
+          category: $("newProductCategory").value,
+          image: selectedProductImage || $("newProductImageUrl").value.trim(),
+          emoji: "🛒",
+          description: $("newProductDescription").value.trim(),
+          ingredients: $("newProductIngredients").value.trim(),
+          details: $("newProductDetails").value.trim(),
+        };
+        if (!product.name || !Number.isFinite(product.price) || product.price < 0) {
+          showToast("กรุณากรอกชื่อสินค้าและราคาให้ถูกต้อง");
+          return;
+        }
+        if (editingProductIndex >= 0) items[editingProductIndex] = product;
+        else items.push(product);
+        localStorage.setItem("adminProducts", JSON.stringify(items));
+        const message = editingProductIndex >= 0 ? "แก้ไขสินค้าเรียบร้อยแล้ว" : "เพิ่มสินค้าใน Catalog แล้ว";
+        resetProductForm();
+        renderCatalog();
+        showToast(message);
+      });
+      function editProduct(i) {
+        const product = getCatalog()[i];
+        if (!product) return;
+        editingProductIndex = i;
+        $("newProductName").value = product.name || "";
+        $("newProductPrice").value = product.price ?? "";
+        $("newProductCategory").value = product.category || "grain";
+        $("newProductDescription").value = product.description || "";
+        $("newProductIngredients").value = product.ingredients || "";
+        $("newProductDetails").value = product.details || "";
+        $("newProductImageUrl").value = product.image && !product.image.startsWith("data:") ? product.image : "";
+        $("newProductImageFile").value = "";
+        previewProductImage(product.image || "");
+        $("productSubmitText").textContent = "บันทึกการแก้ไข";
+        $("cancelEditButton").hidden = false;
+        $("newProductName").focus();
+        document.querySelector("#view-products").scrollIntoView({ behavior: "smooth" });
+      }
+      function deleteProduct(i) {
+        const items = getCatalog();
+        if (!items[i]) return;
+        if (!confirm(`ต้องการลบสินค้า “${items[i].name}” ใช่หรือไม่?`)) return;
+        items.splice(i, 1);
+        localStorage.setItem("adminProducts", JSON.stringify(items));
+        renderCatalog();
+        showToast("ลบสินค้าแล้ว");
+      }
+      function openAdmin() {
+        if (readJSON(adminKey, false)) {
+          $("adminLogin").style.display = "none";
+          $("adminShell").style.display = "block";
+          renderOrders();
+          renderUsers();
+          renderCatalog();
+        }
+      }
+      $("adminLoginButton").addEventListener("click", () => {
+        if (
+          $("adminUser").value === "admin" &&
+          $("adminPass").value === "admin123"
+        ) {
+          localStorage.setItem(adminKey, "1");
+          openAdmin();
+        } else showToast("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+      });
+      $("adminPass").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") $("adminLoginButton").click();
+      });
+      $("adminLogout").addEventListener("click", () => {
+        localStorage.removeItem(adminKey);
+        location.reload();
+      });
+      document.querySelectorAll(".admin-nav button").forEach((btn) =>
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".admin-nav button")
+            .forEach((x) => x.classList.remove("active"));
+          btn.classList.add("active");
+          document
+            .querySelectorAll(".dashboard-view")
+            .forEach((x) => x.classList.remove("active"));
+          $("view-" + btn.dataset.view).classList.add("active");
+        }),
+      );
+      $("orderSearch").addEventListener("input", renderOrders);
+      $("orderFilter").addEventListener("change", renderOrders);
+      $("userSearch").addEventListener("input", renderUsers);
+      window.addEventListener("storage", () => {
+        if ($("adminShell").style.display === "block") {
+          renderOrders();
+          renderUsers();
+        }
+      });
+      openAdmin();
+    </script>
+  </body>
+</html>

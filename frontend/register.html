@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สมัครสมาชิก - ศริณญาพานิช</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="ui-enhancements.css">
+<style>
+
+/* Add-on styles: ลูกเล่นแยกจากสไตล์เดิมและคงโครงสร้าง Register เดิม */
+.auth-wrapper { min-height: 100vh; display:flex; align-items:center; justify-content:center; padding:1.5rem; background:var(--bg-cream,#fff8f0); position:relative; overflow:hidden; }
+.auth-wrapper::before,.auth-wrapper::after { content:''; position:absolute; border-radius:50%; pointer-events:none; opacity:.32; }
+.auth-wrapper::before { width:270px; height:270px; background:#ffd9d9; top:-100px; left:-90px; }
+.auth-wrapper::after { width:320px; height:320px; background:#ffe9b8; right:-140px; bottom:-150px; }
+.auth-card { width:100%; max-width:440px; background:var(--white,#fff); padding:2.5rem; border-radius:var(--radius-lg,22px); border:1.5px solid var(--border-color,#eadfda); box-shadow:var(--shadow-soft,0 18px 50px rgba(100,50,30,.12)); text-align:center; position:relative; z-index:1; animation:cardIn .55s ease both; }
+@keyframes cardIn { from{opacity:0;transform:translateY(16px) scale(.98)} to{opacity:1;transform:translateY(0) scale(1)} }
+.logo-stage { width:94px; height:94px; margin:0 auto 1rem; position:relative; display:grid; place-items:center; }
+.logo-stage::before { content:''; position:absolute; inset:1px; border:2px dashed rgba(198,40,40,.42); border-radius:50%; animation:logoOrbit 10s linear infinite; }
+.logo-stage::after { content:'✦'; position:absolute; top:-5px; right:2px; color:#e4a11b; font-size:1.15rem; animation:twinkle 1.8s ease-in-out infinite; }
+.auth-logo { width:70px; height:70px; object-fit:cover; border-radius:50%; border:3px solid var(--primary-red,#c62828); position:relative; z-index:1; cursor:pointer; transition:transform .25s ease,box-shadow .25s ease; }
+.auth-logo:hover,.auth-logo.is-bouncing { transform:rotate(-8deg) scale(1.1); box-shadow:0 8px 20px rgba(198,40,40,.25); }
+.logo-sparkle { position:absolute; color:#e4a11b; font-size:.85rem; pointer-events:none; animation:sparkleFloat 2.6s ease-in-out infinite; }
+.sparkle-one{left:-2px;top:20px;animation-delay:.3s}.sparkle-two{right:-5px;bottom:17px;animation-delay:1s}
+@keyframes logoOrbit { to{transform:rotate(360deg)} } @keyframes twinkle { 50%{transform:scale(1.45) rotate(18deg);opacity:.45} } @keyframes sparkleFloat { 0%,100%{transform:translateY(3px) scale(.8);opacity:.3} 50%{transform:translateY(-5px) scale(1.2);opacity:1} }
+.brand-title { color:var(--primary-red,#c62828); margin-bottom:.3rem; font-size:1.4rem; background:linear-gradient(90deg,#b71c1c,#e09b22,#b71c1c); background-size:200% auto; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; animation:textShine 4s linear infinite; }
+@keyframes textShine { to{background-position:200% center} }
+.welcome-text { color:var(--text-muted,#766b68); margin-bottom:1.5rem; font-size:.85rem; min-height:1.5em; }
+.form-group { margin-bottom:1rem; text-align:left; }.form-group label { display:block; font-weight:600; margin-bottom:.3rem; color:var(--text-dark,#332b2b); font-size:.85rem; }.input-wrap{position:relative}.form-group input { width:100%; padding:.7rem; border:1.5px solid var(--border-color,#eadfda); border-radius:var(--radius-md,12px); font-size:.9rem; font-family:'Kanit',sans-serif; background:#f8fafc; box-sizing:border-box; transition:border-color .2s,box-shadow .2s,background .2s; }.form-group input:focus { outline:none; border-color:var(--primary-red,#c62828); background:#fff; box-shadow:0 0 0 4px rgba(198,40,40,.1); }
+.password-input{padding-right:3.3rem!important}.toggle-password { position:absolute; right:.5rem; top:50%; transform:translateY(-50%); border:0; background:transparent; color:var(--primary-red,#c62828); cursor:pointer; font-family:inherit; font-size:.8rem; padding:.35rem; border-radius:8px; }.toggle-password:hover{background:#fff0f0}.rule-text { font-size:.75rem; color:var(--text-muted,#766b68); margin-top:.2rem; }.btn-primary.is-loading{opacity:.75;cursor:wait}.btn-primary.is-loading::after{content:'';display:inline-block;width:1em;height:1em;margin-left:.45rem;vertical-align:-.12em;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.auth-link { margin-top:1.2rem; font-size:.9rem; color:var(--text-muted,#766b68); }.auth-link a { color:var(--primary-red,#c62828); font-weight:600; text-decoration:none; }.auth-link a:hover{text-decoration:underline}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+</style>
+</head>
+<body>
+<div class="auth-wrapper"><div class="auth-card">
+  <div class="logo-stage" id="logoStage" aria-label="โลโก้ศริณญาพานิช"><span class="logo-sparkle sparkle-one">✦</span><img src="pic/Logo.webp" alt="โลโก้ร้าน" class="auth-logo" id="authLogo" title="คลิกโลโก้ดูเอฟเฟกต์"><span class="logo-sparkle sparkle-two">✧</span></div>
+  <h2 class="brand-title">สมัครสมาชิก 📝</h2>
+  <p class="welcome-text" id="welcomeText" aria-live="polite">สร้างบัญชีใหม่กับศริณญาพานิช</p>
+
+  <div class="form-group"><label for="regUser">ชื่อผู้ใช้ (Username)</label><input type="text" id="regUser" placeholder="ตั้งชื่อผู้ใช้"></div>
+  <div class="form-group"><label for="regPass">รหัสผ่าน (Password)</label><div class="input-wrap"><input type="password" id="regPass" class="password-input" placeholder="อย่างน้อย 8 ตัว, มีอิงกฤษ, ห้ามมีอักษรพิเศษ"><button type="button" class="toggle-password" id="togglePassword">แสดง</button></div><div class="rule-text">ต้องมีอย่างน้อย 8 ตัว, มีภาษาอังกฤษอย่างน้อย 1 ตัว และห้ามมีอักษรพิเศษ</div></div>
+  <div class="form-group"><label for="regName">ชื่อ-นามสกุล</label><input type="text" id="regName" placeholder="ชื่อจริง นามสกุลจริง"></div>
+  <div class="form-group"><label for="regPhone">เบอร์โทรศัพท์</label><input type="tel" id="regPhone" placeholder="08xxxxxxxx (ต้องครบ 10 ตัว)" maxlength="10"></div>
+  <div class="form-group"><label for="regEmail">อีเมล</label><input type="email" id="regEmail" placeholder="example@domain.com"></div>
+  <button class="btn-primary" id="registerButton" style="width:100%;margin-top:.5rem;">ยืนยันสมัครสมาชิก ✨</button>
+  <div class="auth-link">มีบัญชีอยู่แล้ว? <a href="login.html">เข้าสู่ระบบที่นี่</a></div>
+</div></div>
+
+<div id="customAlertModal" class="modal-overlay" style="display:none;"><div class="modal-card" style="text-align:center;"><h3 id="alertTitle" style="margin-bottom:.8rem;color:var(--primary-red);">แจ้งเตือน</h3><p id="alertMessage" style="color:var(--text-dark);margin-bottom:1.5rem;white-space:pre-line;"></p><button class="btn-primary" id="alertOkButton">ตกลง</button></div></div>
+
+<script src="js/api.js"></script>
+<script>
+
+let alertCallback=null;
+function showAlert(title,message,callback=null){document.getElementById('alertTitle').innerText=title;document.getElementById('alertMessage').innerText=message;document.getElementById('customAlertModal').style.display='flex';alertCallback=callback;document.getElementById('alertOkButton').focus()}
+function closeAlertModal(){document.getElementById('customAlertModal').style.display='none';if(alertCallback){const callback=alertCallback;alertCallback=null;callback()}}
+document.getElementById('alertOkButton').addEventListener('click',closeAlertModal);document.getElementById('customAlertModal').addEventListener('click',e=>{if(e.target.id==='customAlertModal')closeAlertModal()});
+const regPass=document.getElementById('regPass'),registerButton=document.getElementById('registerButton');
+document.getElementById('togglePassword').addEventListener('click',function(){const visible=regPass.type==='text';regPass.type=visible?'password':'text';this.textContent=visible?'แสดง':'ซ่อน';this.setAttribute('aria-label',visible?'แสดงรหัสผ่าน':'ซ่อนรหัสผ่าน')});
+document.getElementById('authLogo').addEventListener('click',()=>{const logo=document.getElementById('authLogo');logo.classList.remove('is-bouncing');void logo.offsetWidth;logo.classList.add('is-bouncing');setTimeout(()=>logo.classList.remove('is-bouncing'),500)});
+const welcomeText=document.getElementById('welcomeText'),welcomeMessage='สร้างบัญชีใหม่กับศริณญาพานิช';welcomeText.textContent='';let welcomeIndex=0;function typeWelcomeMessage(){if(welcomeIndex<welcomeMessage.length){welcomeText.textContent+=welcomeMessage[welcomeIndex++];setTimeout(typeWelcomeMessage,42)}}typeWelcomeMessage();
+	async function handleRegister(){
+	 const username=document.getElementById('regUser').value.trim(),password=regPass.value.trim(),name=document.getElementById('regName').value.trim(),phone=document.getElementById('regPhone').value.trim(),email=document.getElementById('regEmail').value.trim();
+ if(!username||!password||!name||!phone||!email){showAlert('ข้อมูลไม่ครบ ❌','กรุณากรอกข้อมูลทุกช่องให้ครบถ้วน');return}
+ if(password.length<8){showAlert('รหัสผ่านไม่ถูกต้อง ❌','รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษรขึ้นไป');return}
+ if(!/[a-zA-Z]/.test(password)){showAlert('รหัสผ่านไม่ถูกต้อง ❌','รหัสผ่านต้องมีตัวอักษรภาษาอังกฤษอย่างน้อย 1 ตัว');return}
+ if(/[^a-zA-Z0-9]/.test(password)){showAlert('รหัสผ่านไม่ถูกต้อง ❌','รหัสผ่านห้ามมีอักษรพิเศษเด็ดขาด (ใช้ได้เฉพาะตัวอักษรและตัวเลข)');return}
+ if(phone.length!==10||!/^[0-9]+$/.test(phone)){showAlert('เบอร์โทรไม่ถูกต้อง ❌','เบอร์โทรศัพท์ต้องเป็นตัวเลขและมีจำนวนครบ 10 ตัวเท่านั้น');return}
+ const emailRegex=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;if(!emailRegex.test(email)){showAlert('อีเมลไม่ถูกต้อง ❌','กรุณากรอกอีเมลจริงที่มีรูปแบบและนามสกุลอีเมลที่ถูกต้อง (เช่น example@gmail.com)');return}
+	 registerButton.classList.add('is-loading');registerButton.disabled=true;registerButton.textContent='กำลังสมัครสมาชิก...';
+	 try {
+	   await apiRequest('/auth/register',{method:'POST',body:JSON.stringify({username,password,name,phone,email})});
+	   showAlert('สำเร็จ 🎉','สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ',()=>{window.location.href='login.html'});
+	 } catch(error) {
+	   showAlert('สมัครสมาชิกไม่สำเร็จ ❌',error.message||'ไม่สามารถสมัครสมาชิกได้');
+	   registerButton.classList.remove('is-loading');registerButton.disabled=false;registerButton.textContent='ยืนยันสมัครสมาชิก ✨';
+	 }
+	}
+registerButton.addEventListener('click',handleRegister);
+
+</script>
+<script src="ui-enhancements.js"></script>
+</body>
+</html>

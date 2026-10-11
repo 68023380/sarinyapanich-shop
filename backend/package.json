@@ -1,0 +1,28 @@
+{
+  "name": "sarinyapanich-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend API for Sarinyapanich shop",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "seed": "node src/db/seed.js",
+    "migrate:supabase": "node scripts/migrate-sqlite-to-supabase.js",
+    "test:supabase": "node scripts/test-supabase-connection.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
+    "pg": "^8.13.1",
+    "zod": "^3.24.1"
+  }
+}
+

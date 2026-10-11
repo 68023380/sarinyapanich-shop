@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เข้าสู่ระบบ - ศริณญาพานิช</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+/* Add-on styles: แยก namespace เพื่อไม่รบกวนสไตล์เดิม */
+.auth-wrapper { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1.5rem; background: var(--bg-cream, #fff8f0); position: relative; overflow: hidden; }
+.auth-wrapper::before, .auth-wrapper::after { content: ''; position: absolute; border-radius: 50%; filter: blur(2px); opacity: .32; pointer-events: none; }
+.auth-wrapper::before { width: 260px; height: 260px; background: #ffd9d9; top: -90px; left: -80px; }
+.auth-wrapper::after { width: 320px; height: 320px; background: #ffe9b8; right: -130px; bottom: -140px; }
+.auth-card { width: 100%; max-width: 420px; background: var(--white, #fff); padding: 2.5rem; border-radius: var(--radius-lg, 22px); border: 1.5px solid var(--border-color, #eadfda); box-shadow: var(--shadow-soft, 0 18px 50px rgba(100, 50, 30, .12)); text-align: center; position: relative; z-index: 1; animation: cardIn .55s ease both; }
+@keyframes cardIn { from { opacity: 0; transform: translateY(16px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.logo-stage { width: 94px; height: 94px; margin: 0 auto 1rem; position: relative; display: grid; place-items: center; }
+.logo-stage::before { content: ''; position: absolute; inset: 1px; border: 2px dashed rgba(198, 40, 40, .42); border-radius: 50%; animation: logoOrbit 10s linear infinite; }
+.logo-stage::after { content: '✦'; position: absolute; top: -5px; right: 2px; color: #e4a11b; font-size: 1.15rem; animation: twinkle 1.8s ease-in-out infinite; }
+.auth-logo { width: 70px; height: 70px; object-fit: cover; border-radius: 50%; border: 3px solid var(--primary-red, #c62828); transition: transform .25s ease, box-shadow .25s ease; position: relative; z-index: 1; cursor: pointer; }
+.auth-logo:hover, .auth-logo.is-bouncing { transform: rotate(-8deg) scale(1.1); box-shadow: 0 8px 20px rgba(198, 40, 40, .25); }
+.logo-sparkle { position: absolute; color: #e4a11b; font-size: .85rem; pointer-events: none; animation: sparkleFloat 2.6s ease-in-out infinite; }
+.sparkle-one { left: -2px; top: 20px; animation-delay: .3s; }
+.sparkle-two { right: -5px; bottom: 17px; animation-delay: 1s; }
+@keyframes logoOrbit { to { transform: rotate(360deg); } }
+@keyframes twinkle { 50% { transform: scale(1.45) rotate(18deg); opacity: .45; } }
+@keyframes sparkleFloat { 0%, 100% { transform: translateY(3px) scale(.8); opacity: .3; } 50% { transform: translateY(-5px) scale(1.2); opacity: 1; } }
+.brand-title { color: var(--primary-red, #c62828); margin-bottom: 0.5rem; font-size: 1.5rem; background: linear-gradient(90deg, #b71c1c, #e09b22, #b71c1c); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: textShine 4s linear infinite; }
+@keyframes textShine { to { background-position: 200% center; } }
+.welcome-text { color: var(--text-muted, #766b68); margin-bottom: 2rem; font-size: 0.9rem; min-height: 1.5em; }
+.form-group { margin-bottom: 1.2rem; text-align: left; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 0.4rem; color: var(--text-dark, #332b2b); font-size: 0.9rem; }
+.input-wrap { position: relative; }
+.form-group input { width: 100%; padding: 0.8rem; border: 1.5px solid var(--border-color, #eadfda); border-radius: var(--radius-md, 12px); font-size: 0.95rem; font-family: 'Kanit', sans-serif; background: #f8fafc; transition: border-color .2s ease, box-shadow .2s ease, background .2s ease; box-sizing: border-box; }
+.form-group input:focus { outline: none; border-color: var(--primary-red, #c62828); background: #fff; box-shadow: 0 0 0 4px rgba(198, 40, 40, .1); }
+.password-input { padding-right: 3.1rem !important; }
+.toggle-password { position: absolute; right: .55rem; top: 50%; transform: translateY(-50%); border: 0; background: transparent; cursor: pointer; font-family: inherit; font-size: .8rem; color: var(--primary-red, #c62828); padding: .35rem .45rem; border-radius: 8px; }
+.toggle-password:hover, .toggle-password:focus-visible { background: #fff0f0; outline: none; }
+.login-options { display: flex; justify-content: space-between; align-items: center; gap: .75rem; margin: -.15rem 0 .3rem; font-size: .82rem; color: var(--text-muted, #766b68); text-align: left; }
+.remember-label { display: flex; align-items: center; gap: .4rem; cursor: pointer; }
+.remember-label input { accent-color: var(--primary-red, #c62828); }
+.clear-user { border: 0; background: none; color: var(--primary-red, #c62828); cursor: pointer; font-family: inherit; font-size: .82rem; padding: 0; }
+.clear-user:hover { text-decoration: underline; }
+.auth-link { margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted, #766b68); }
+.auth-link a { color: var(--primary-red, #c62828); font-weight: 600; text-decoration: none; }
+.auth-link a:hover { text-decoration: underline; }
+.btn-primary.is-loading { opacity: .75; cursor: wait; }
+.btn-primary.is-loading::after { content: ''; display: inline-block; width: 1em; height: 1em; margin-left: .45rem; vertical-align: -.12em; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="logo-stage" id="logoStage" aria-label="โลโก้ศริณญาพานิช">
+      <span class="logo-sparkle sparkle-one">✦</span>
+      <img src="pic/Logo.webp" alt="โลโก้ร้าน" class="auth-logo" id="authLogo" title="คลิกโลโก้ดูเอฟเฟกต์">
+      <span class="logo-sparkle sparkle-two">✧</span>
+    </div>
+    <h2 class="brand-title">ศริณญาพานิช 🛒</h2>
+    <p class="welcome-text" id="welcomeText" aria-live="polite">ยินดีต้อนรับ! กรุณาเข้าสู่ระบบ</p>
+
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label for="loginUser">ชื่อผู้ใช้ (Username)</label>
+        <div class="input-wrap">
+          <input type="text" id="loginUser" placeholder="กรอกชื่อผู้ใช้ของคุณ" autocomplete="username">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="loginPass">รหัสผ่าน (Password)</label>
+        <div class="input-wrap">
+          <input type="password" id="loginPass" class="password-input" placeholder="••••••••" autocomplete="current-password">
+          <button type="button" class="toggle-password" id="togglePassword" aria-label="แสดงรหัสผ่าน" aria-pressed="false">แสดง</button>
+        </div>
+      </div>
+
+      <div class="login-options">
+        <label class="remember-label"><input type="checkbox" id="rememberUser"> จำชื่อผู้ใช้</label>
+        <button type="button" class="clear-user" id="clearUser" hidden>ล้างชื่อที่จำไว้</button>
+      </div>
+      <button type="submit" class="btn-primary" id="loginButton" style="width: 100%; margin-top: 1rem;">เข้าสู่ระบบ ✨</button>
+    </form>
+
+    <div class="auth-link">ยังไม่มีบัญชีใช่ไหม? <a href="register.html">สมัครสมาชิกที่นี่</a></div>
+  </div>
+</div>
+
+<div id="customAlertModal" class="modal-overlay" style="display:none;">
+  <div class="modal-card" style="text-align:center;">
+    <h3 id="alertTitle" style="margin-bottom:0.8rem; color:var(--primary-red);">แจ้งเตือน</h3>
+    <p id="alertMessage" style="color:var(--text-dark); margin-bottom:1.5rem; white-space:pre-line;"></p>
+    <button class="btn-primary" id="alertOkButton">ตกลง</button>
+  </div>
+</div>
+
+<script>
+let alertCallback = null;
+const rememberedUserKey = 'rememberedLoginUsername';
+const loginForm = document.getElementById('loginForm');
+const loginUser = document.getElementById('loginUser');
+const loginPass = document.getElementById('loginPass');
+const loginButton = document.getElementById('loginButton');
+const rememberUser = document.getElementById('rememberUser');
+const clearUser = document.getElementById('clearUser');
+
+// ลูกเล่นโลโก้: คลิกแล้วเด้งเบา ๆ และสร้างประกายชั่วคราว โดยไม่ยุ่งกับข้อมูล Login
+document.getElementById('authLogo').addEventListener('click', () => {
+  const logo = document.getElementById('authLogo');
+  logo.classList.remove('is-bouncing');
+  void logo.offsetWidth;
+  logo.classList.add('is-bouncing');
+  setTimeout(() => logo.classList.remove('is-bouncing'), 500);
+});
+
+// ข้อความต้อนรับพิมพ์ทีละตัวเมื่อเปิดหน้า
+const welcomeText = document.getElementById('welcomeText');
+const welcomeMessage = 'ยินดีต้อนรับ! กรุณาเข้าสู่ระบบ';
+welcomeText.textContent = '';
+let welcomeIndex = 0;
+function typeWelcomeMessage() {
+  if (welcomeIndex < welcomeMessage.length) {
+    welcomeText.textContent += welcomeMessage[welcomeIndex++];
+    setTimeout(typeWelcomeMessage, 42);
+  }
+}
+typeWelcomeMessage();
+
+function showAlert(title, message, callback = null) {
+  document.getElementById('alertTitle').innerText = title;
+  document.getElementById('alertMessage').innerText = message;
+  document.getElementById('customAlertModal').style.display = 'flex';
+  alertCallback = callback;
+  document.getElementById('alertOkButton').focus();
+}
+function closeAlertModal() {
+  document.getElementById('customAlertModal').style.display = 'none';
+  if (alertCallback) { const callback = alertCallback; alertCallback = null; callback(); }
+}
+document.getElementById('alertOkButton').addEventListener('click', closeAlertModal);
+document.getElementById('customAlertModal').addEventListener('click', (event) => {
+  if (event.target.id === 'customAlertModal') closeAlertModal();
+});
+
+document.getElementById('togglePassword').addEventListener('click', function () {
+  const visible = loginPass.type === 'text';
+  loginPass.type = visible ? 'password' : 'text';
+  this.textContent = visible ? 'แสดง' : 'ซ่อน';
+  this.setAttribute('aria-label', visible ? 'แสดงรหัสผ่าน' : 'ซ่อนรหัสผ่าน');
+  this.setAttribute('aria-pressed', String(!visible));
+});
+
+function syncRememberedUser() {
+  const saved = localStorage.getItem(rememberedUserKey);
+  if (saved) { loginUser.value = saved; rememberUser.checked = true; clearUser.hidden = false; }
+}
+rememberUser.addEventListener('change', () => { clearUser.hidden = !rememberUser.checked; });
+clearUser.addEventListener('click', () => {
+  localStorage.removeItem(rememberedUserKey);
+  loginUser.value = '';
+  rememberUser.checked = false;
+  clearUser.hidden = true;
+  loginUser.focus();
+});
+
+function handleLogin() {
+  const username = loginUser.value.trim();
+  const password = loginPass.value.trim();
+  if (!username || !password) {
+    showAlert('ข้อมูลไม่ครบ ❌', 'กรุณากรอกชื่อผู้ใช้และรหัสผ่านให้ครบถ้วน');
+    return;
+  }
+  if (rememberUser.checked) localStorage.setItem(rememberedUserKey, username);
+  else localStorage.removeItem(rememberedUserKey);
+
+  let users = JSON.parse(localStorage.getItem('usersList')) || [];
+  const foundUser = users.find(u => u.username === username && u.password === password);
+  if (foundUser) {
+    localStorage.setItem('currentUser', JSON.stringify(foundUser));
+    loginButton.classList.add('is-loading');
+    loginButton.disabled = true;
+    showAlert('สำเร็จ 🎉', 'เข้าสู่ระบบสำเร็จ กำลังพาไปหน้าแรก...', () => { window.location.href = 'index.html'; });
+  } else {
+    showAlert('ผิดพลาด ❌', 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง หรือยังไม่ได้สมัครสมาชิก');
+  }
+}
+loginForm.addEventListener('submit', (event) => { event.preventDefault(); handleLogin(); });
+syncRememberedUser();
+</script>
+</body>
+</html>

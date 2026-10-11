@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ประวัติการสั่งซื้อ - ศริณญาพานิช</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="ui-enhancements.css">
+<style>
+.header-bar { max-width: 900px; margin: 2rem auto 1rem auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-soft); gap: 1rem; }
+.logo-container { display: flex; align-items: center; gap: 0.8rem; min-width: 0; }
+.store-logo { width: 45px; height: 45px; object-fit: cover; border-radius: 50%; border: 2px solid var(--primary-red); flex-shrink: 0; }
+.header-actions { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+.header-nav-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 104px; padding: 0.55rem 0.9rem; border-radius: var(--radius-md); color: #fff; font-family: 'Kanit', sans-serif; font-weight: 600; font-size: 0.88rem; text-decoration: none; box-shadow: 0 2px 4px rgba(0,0,0,0.06); transition: transform 0.2s, opacity 0.2s, background 0.2s; }
+.header-nav-btn:hover { transform: translateY(-1px); opacity: 0.92; }
+.home-btn { background: var(--primary-red); }
+.cart-btn { background: #475569; }
+.history-container { max-width: 900px; margin: 0 auto 2rem auto; padding: 2rem; background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-soft); }
+.order-card { background: var(--bg-cream); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.5rem; }
+.order-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 0.8rem; margin-bottom: 1rem; gap: 1rem; }
+.order-item-row { display: flex; justify-content: space-between; align-items: center; padding: 0.3rem 0; font-size: 0.95rem; gap: 1rem; }
+.timeline-container { margin: 1.2rem 0; padding: 1rem; background: #fff; border-radius: var(--radius-md); border: 1px solid var(--border-color); }
+.timeline-steps { display: flex; justify-content: space-between; position: relative; margin-bottom: 0.5rem; }
+.timeline-steps::before { content: ''; position: absolute; top: 14px; left: 10%; right: 10%; height: 4px; background: #e2e8f0; z-index: 1; }
+.timeline-step { position: relative; z-index: 2; text-align: center; flex: 1; }
+.timeline-circle { width: 30px; height: 30px; border-radius: 50%; background: #e2e8f0; color: #94a3b8; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 0.8rem; font-weight: 700; border: 2px solid #fff; }
+.timeline-step.active .timeline-circle { background: var(--primary-red); color: #fff; }
+.timeline-step.completed .timeline-circle { background: #10b981; color: #fff; }
+.timeline-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 5px; font-weight: 500; }
+.timeline-step.active .timeline-label { color: var(--primary-red); font-weight: 700; }
+.timeline-step.completed .timeline-label { color: #10b981; font-weight: 600; }
+.status-progress { height: 7px; margin: .8rem 8% 1rem; overflow: hidden; border-radius: 99px; background: #e2e8f0; }
+.status-progress-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, #ef4444, #f97316, #10b981); transition: width .45s ease; }
+.owner-action-box { margin-top: 0.8rem; background: #fffbeb; border: 1px solid #fde68a; padding: 0.6rem; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; gap: .7rem; }
+@media (max-width: 650px) {
+  .header-bar { margin: 1rem; padding: .9rem 1rem; align-items: stretch; flex-direction: column; }
+  .logo-container { justify-content: center; }
+  .header-actions { width: 100%; }
+  .header-nav-btn { flex: 1; min-width: 0; }
+  .history-container { margin: 0 1rem 1.5rem; padding: 1.2rem; }
+  .order-header { align-items: flex-start; flex-direction: column; }
+  .owner-action-box { align-items: stretch; flex-direction: column; }
+  .owner-action-box > div { display: flex; }
+  .owner-action-box button { flex: 1; }
+}
+</style>
+</head>
+<body>
+
+<div class="header-bar">
+  <div class="logo-container">
+    <img src="pic/Logo.webp" alt="โลโก้" class="store-logo" onerror="this.onerror=null;this.src='Logo.webp';">
+    <h1 style="color:var(--primary-red); font-size:1.3rem; margin:0; white-space:nowrap;">ศริณญาพานิช 🛒</h1>
+  </div>
+  <nav class="header-actions" aria-label="เมนูหลัก">
+    <a href="index.html" class="header-nav-btn home-btn">⌂ หน้าแรก</a>
+    <a href="cart.html" class="header-nav-btn cart-btn">🛒 ตะกร้า</a>
+  </nav>
+</div>
+
+<div class="history-container">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;"><h2 style="color:var(--primary-red);margin:0;">📜 ประวัติการสั่งซื้อของคุณ</h2><button class="btn-primary" type="button" onclick="loadHistory()" style="padding:.5rem 1rem;">↻ รีเฟรชสถานะ</button></div>
+  <div id="historyList"></div>
+</div>
+
+<div id="customAlertModal" class="modal-overlay" style="display:none;">
+  <div class="modal-card" style="text-align:center;">
+    <h3 id="alertTitle" style="margin-bottom:0.8rem; color:var(--primary-red);">แจ้งเตือน</h3>
+    <p id="alertMessage" style="color:var(--text-dark); margin-bottom:1.5rem; white-space:pre-line;"></p>
+    <button class="btn-primary" onclick="closeAlertModal()">ตกลง</button>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+let alertCallback = null;
+let orders = [];
+function showAlert(title, message, callback = null) {
+  document.getElementById('alertTitle').innerText = title;
+  document.getElementById('alertMessage').innerText = message;
+  document.getElementById('customAlertModal').style.display = 'flex';
+  alertCallback = callback;
+}
+function closeAlertModal() {
+  document.getElementById('customAlertModal').style.display = 'none';
+  if (alertCallback) { const callback = alertCallback; alertCallback = null; callback(); }
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
+}
+function formatDate(value) {
+  if (!value) return '-';
+  const date = new Date(value.replace(' ', 'T') + (value.endsWith('Z') ? '' : 'Z'));
+  return Number.isNaN(date.getTime()) ? value : date.toLocaleString('th-TH');
+}
+function getStepState(status = '') {
+  const normalized = String(status).trim();
+  if (normalized === 'จัดส่งสำเร็จ' || normalized.includes('รับแล้ว')) return [1,1,1,1];
+  if (normalized === 'กำลังจัดส่งสินค้า' || normalized.includes('กำลังจัดส่ง')) return [1,1,1,0];
+  if (normalized === 'กำลังเตรียมพัสดุ' || normalized.includes('เตรียม')) return [1,1,0,0];
+  if (normalized === 'สั่งซื้อสำเร็จ' || normalized === 'สั่งซื้อ') return [1,0,0,0];
+  return [1,0,0,0];
+}
+function stepClass(state, index) {
+  if (state[index] === 1 && index === state.lastIndexOf(1)) return 'timeline-step active';
+  return state[index] === 1 ? 'timeline-step completed' : 'timeline-step';
+}
+function progressWidth(state) {
+  const last = state.lastIndexOf(1);
+  return `${Math.max(8, (last / 3) * 100)}%`;
+}
+function renderHistory() {
+  const historyList = document.getElementById('historyList');
+  if (!orders.length) {
+    historyList.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:2rem;">ยังไม่มีประวัติการสั่งซื้อสินค้า</p>';
+    return;
+  }
+  const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  const isAdmin = user.role === 'admin';
+  historyList.innerHTML = orders.map(order => {
+    const status = order.status || 'สั่งซื้อสำเร็จ';
+    const state = getStepState(status);
+    const itemsHtml = (order.items || []).map(item => `<div class="order-item-row"><span>${escapeHtml(item.name)} (x${Number(item.quantity)})</span><span style="font-weight:600;">฿${Number(item.subtotal ?? item.price * item.quantity).toLocaleString('th-TH')}</span></div>`).join('');
+    return `<div class="order-card">
+      <div class="order-header"><div><div style="font-weight:700;color:var(--primary-red);">คำสั่งซื้อ #${order.id}</div><span style="font-size:.8rem;background:#e2e8f0;padding:2px 6px;border-radius:4px;">${escapeHtml(order.payment_method || 'ไม่ระบุ')}</span></div><div style="font-size:.85rem;color:var(--text-muted);">📅 ${escapeHtml(formatDate(order.created_at))}</div></div>
+      <div style="margin-bottom:.8rem;">${itemsHtml}</div>
+      <div class="timeline-container"><div style="font-size:.85rem;font-weight:600;margin-bottom:.5rem;">สถานะ: <span style="color:var(--primary-red);">${escapeHtml(status)}</span></div><div class="status-progress" aria-label="ความคืบหน้าคำสั่งซื้อ"><div class="status-progress-fill" style="width:${progressWidth(state)}"></div></div><div class="timeline-steps">
+        <div class="${stepClass(state,0)}"><div class="timeline-circle">1</div><div class="timeline-label">สั่งซื้อ</div></div><div class="${stepClass(state,1)}"><div class="timeline-circle">2</div><div class="timeline-label">เตรียมของ</div></div><div class="${stepClass(state,2)}"><div class="timeline-circle">3</div><div class="timeline-label">จัดส่ง</div></div><div class="${stepClass(state,3)}"><div class="timeline-circle">4</div><div class="timeline-label">สำเร็จ</div></div>
+      </div></div>
+      ${isAdmin ? `<div class="owner-action-box"><span style="font-weight:600;color:#d97706;">🛠️ โหมดเจ้าของร้าน:</span><div style="display:flex;gap:.3rem;"><button onclick="updateStatus(${order.id},'กำลังเตรียมพัสดุ')" style="padding:2px 6px;cursor:pointer;">เตรียมของ</button><button onclick="updateStatus(${order.id},'กำลังจัดส่งสินค้า')" style="padding:2px 6px;cursor:pointer;">จัดส่ง</button><button onclick="updateStatus(${order.id},'จัดส่งสำเร็จ')" style="padding:2px 6px;background:#10b981;color:white;border:none;cursor:pointer;">สำเร็จ</button></div></div>` : ''}
+      <div style="text-align:right;margin-top:.8rem;font-weight:700;color:var(--primary-red);">รวม: ฿${Number(order.total).toLocaleString('th-TH')}</div>
+    </div>`;
+  }).join('');
+}
+async function loadHistory() {
+  const historyList = document.getElementById('historyList');
+  historyList.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:2rem;">กำลังโหลดประวัติ...</p>';
+  try { orders = await getOrders(); renderHistory(); }
+  catch (error) { showAlert('เกิดข้อผิดพลาด ❌', error.message || 'โหลดประวัติไม่สำเร็จ', () => { window.location.href = 'login.html'; }); }
+}
+async function updateStatus(orderId, status) {
+  try { await apiRequest(`/orders/${orderId}/status`, { method:'PATCH', body:JSON.stringify({ status }) }); await loadHistory(); }
+  catch (error) { showAlert('อัปเดตไม่สำเร็จ ❌', error.message); }
+}
+if (requireLogin()) loadHistory();
+setInterval(() => { if (isLoggedIn() && document.visibilityState === 'visible') loadHistory(); }, 5000);
+</script>
+<script src="ui-enhancements.js"></script>
+</body>
+</html>

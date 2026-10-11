@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ตะกร้าสินค้า - ศริณญาพานิช</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+.header-bar { max-width: 900px; margin: 2rem auto 1rem auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-soft); gap: 1rem; }
+.logo-container { display: flex; align-items: center; gap: 0.8rem; min-width: 0; }
+.store-logo { width: 45px; height: 45px; object-fit: cover; border-radius: 50%; border: 2px solid var(--primary-red); flex-shrink: 0; }
+.header-actions { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+.header-nav-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 104px; padding: 0.55rem 0.9rem; border-radius: var(--radius-md); color: #fff; font-family: 'Kanit', sans-serif; font-weight: 600; font-size: 0.88rem; text-decoration: none; box-shadow: 0 2px 4px rgba(0,0,0,0.06); transition: transform 0.2s, opacity 0.2s, background 0.2s; }
+.header-nav-btn:hover { transform: translateY(-1px); opacity: 0.92; }
+.home-btn { background: var(--primary-red); }
+.history-btn { background: #475569; }
+.cart-container { max-width: 900px; margin: 0 auto 2rem auto; padding: 2rem; background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-soft); }
+.cart-item { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 0; border-bottom: 1.5px solid var(--border-color); gap: 1rem; }
+.cart-item-info { display: flex; align-items: center; gap: 1rem; min-width: 0; }
+.cart-item-img { width: 60px; height: 60px; object-fit: cover; border-radius: var(--radius-md); background: var(--bg-cream); border: 1px solid var(--border-color); flex-shrink: 0; }
+.qty-btn { background: #f1f5f9; border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; cursor: pointer; font-weight: 600; font-family: 'Kanit', sans-serif; transition: background 0.2s; }
+.qty-btn:hover { background: #e2e8f0; }
+.delete-btn { background: #fee2e2; color: #ef4444; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; font-family: 'Kanit', sans-serif; transition: background 0.2s; }
+.delete-btn:hover { background: #fecaca; }
+.summary-box { margin-top: 2rem; padding: 1.5rem; background: var(--bg-cream); border-radius: var(--radius-md); border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+@media (max-width: 650px) {
+  .header-bar { margin: 1rem; padding: 0.9rem 1rem; align-items: stretch; flex-direction: column; }
+  .logo-container { justify-content: center; }
+  .header-actions { width: 100%; }
+  .header-nav-btn { flex: 1; min-width: 0; }
+  .cart-container { margin: 0 1rem 1.5rem; padding: 1.2rem; }
+  .cart-item { align-items: flex-start; flex-direction: column; }
+  .cart-item > div:last-child { width: 100%; justify-content: flex-end; }
+  .summary-box { align-items: stretch; flex-direction: column; }
+  .summary-box .btn-primary { width: 100%; }
+}
+
+/* Extra cart effects */
+.header-bar,.cart-container{position:relative;overflow:hidden}.header-bar::after{content:'✦';position:absolute;right:24px;top:12px;color:#e4a11b;font-size:1.4rem;animation:twinkle 1.8s ease-in-out infinite;pointer-events:none}.store-logo{transition:transform .3s,box-shadow .3s;animation:floatLogo 3.5s ease-in-out infinite;cursor:pointer}.store-logo:hover,.store-logo.is-bouncing{transform:rotate(-8deg) scale(1.12);box-shadow:0 6px 18px rgba(198,40,40,.25)}.cart-brand-title{background:linear-gradient(90deg,#b71c1c,#e09b22,#b71c1c);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:textShine 4s linear infinite}.cart-heading{display:flex;justify-content:space-between;align-items:center;gap:.7rem;flex-wrap:wrap}.cart-count-pill{padding:.25rem .75rem;border-radius:50px;background:#fff0f0;color:var(--primary-red,#c62828);font-size:.8rem;font-weight:600}.cart-item{animation:itemIn .4s ease both;transition:transform .2s,box-shadow .2s}.cart-item:hover{transform:translateX(4px);box-shadow:0 5px 14px rgba(100,50,30,.08)}.cart-item-img{transition:transform .25s}.cart-item:hover .cart-item-img{transform:scale(1.08) rotate(-3deg)}.qty-btn,.delete-btn{transition:transform .15s,background .2s}.qty-btn:active,.delete-btn:active{transform:scale(.88)}.summary-box{background:linear-gradient(135deg,var(--bg-cream),#fff7e7)}.total-label{display:flex;align-items:center;gap:.35rem}.checkout-progress{height:5px;background:#eadfda;border-radius:50px;overflow:hidden;margin-top:.7rem}.checkout-progress span{display:block;width:100%;height:100%;background:linear-gradient(90deg,#c62828,#e4a11b);animation:progressGlow 2s ease-in-out infinite}.checkout-btn{transition:transform .2s,box-shadow .2s}.checkout-btn:hover{transform:translateY(-2px);box-shadow:0 8px 16px rgba(198,40,40,.22)}.cart-toast{position:fixed;left:50%;bottom:24px;z-index:10;transform:translate(-50%,18px);opacity:0;pointer-events:none;background:#1f2937;color:#fff;padding:.65rem 1rem;border-radius:50px;font-size:.88rem;transition:.3s}.cart-toast.show{opacity:1;transform:translate(-50%,0)}@keyframes floatLogo{50%{transform:translateY(-3px)}}@keyframes twinkle{50%{transform:scale(1.45) rotate(18deg);opacity:.45}}@keyframes textShine{to{background-position:200% center}}@keyframes itemIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}@keyframes progressGlow{50%{filter:brightness(1.2)}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+.checkout-modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:1rem;background:rgba(31,41,55,.55)}.checkout-modal.show{display:flex}.checkout-panel{width:min(680px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:18px;padding:1.4rem;box-shadow:0 20px 60px rgba(0,0,0,.2);animation:itemIn .3s ease}.checkout-panel h3{color:var(--primary-red);margin-bottom:1rem}.checkout-close{float:right;border:0;background:#f1f5f9;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:1.1rem}.fulfillment-options,.payment-options{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1rem}.choice-card{display:block;padding:.8rem;border:1.5px solid var(--border-color);border-radius:12px;cursor:pointer}.choice-card:has(input:checked){border-color:var(--primary-red);background:#fff5f5;box-shadow:0 0 0 3px rgba(198,40,40,.08)}.choice-card input{accent-color:var(--primary-red);margin-right:.35rem}.checkout-section{padding:1rem;margin:.8rem 0;background:#fffaf2;border:1px solid var(--border-color);border-radius:12px}.checkout-section h4{margin-bottom:.7rem;color:var(--text-dark)}.checkout-field{margin-bottom:.7rem}.checkout-field label{display:block;font-weight:600;font-size:.86rem;margin-bottom:.25rem}.checkout-field input,.checkout-field textarea{width:100%;box-sizing:border-box;padding:.65rem;border:1px solid var(--border-color);border-radius:9px;font:inherit}.checkout-field textarea{min-height:76px;resize:vertical}.required{color:#c62828}.payment-info{padding:.7rem;background:#f8fafc;border-radius:9px;font-size:.86rem;line-height:1.7}.qr-box{width:150px;height:150px;margin:.5rem auto;display:grid;place-items:center;text-align:center;background:repeating-linear-gradient(45deg,#111 0 4px,#fff 4px 8px);color:#fff;border:8px solid #fff;outline:1px solid #ddd;font-weight:700}.slip-preview{max-width:130px;max-height:100px;display:block;margin-top:.5rem;border-radius:8px}.checkout-actions{display:flex;gap:.6rem;margin-top:1rem}.checkout-actions button{flex:1}.store-hours{color:#9a6700;background:#fff3cd;padding:.65rem;border-radius:8px;font-size:.84rem}@media(max-width:600px){.fulfillment-options,.payment-options{grid-template-columns:1fr}.checkout-panel{padding:1rem}}
+</style>
+</head>
+<body>
+
+<div class="header-bar">
+  <div class="logo-container">
+    <img src="pic/Logo.webp" alt="โลโก้" class="store-logo" id="storeLogo" onerror="this.onerror=null;this.src='Logo.webp';">
+    <h1 class="cart-brand-title" style="font-size:1.3rem; margin:0; white-space:nowrap;">ศริณญาพานิช 🛒</h1>
+  </div>
+  <nav class="header-actions" aria-label="เมนูหลัก">
+    <a href="index.html" class="header-nav-btn home-btn">⌂ หน้าแรก</a>
+    <a href="history.html" class="header-nav-btn history-btn">▣ ประวัติการซื้อ</a>
+  </nav>
+</div>
+
+<div class="cart-container">
+  <div class="cart-heading"><h2 style="color:var(--primary-red); margin-bottom:1.5rem; display:flex; align-items:center; gap:0.5rem;">🛒 ตะกร้าสินค้าของคุณ</h2><span class="cart-count-pill" id="cartCountPill">0 รายการ</span></div>
+  <div id="cartList"></div>
+  <div id="cartSummary" style="display:none;">
+    <div class="summary-box">
+      <div>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">ยอดชำระสุทธิ</p>
+        <h3 id="totalPrice" style="color:var(--primary-red); font-size:1.5rem; margin-top:0.2rem;">฿0</h3><div class="checkout-progress"><span></span></div>
+      </div>
+      <button class="btn-primary" onclick="checkout()" class="checkout-btn" style="padding: 0.8rem 1.8rem; font-size: 1rem;">ดำเนินการชำระเงิน ✨</button>
+    </div>
+  </div>
+</div>
+<div class="cart-toast" id="cartToast" role="status" aria-live="polite"></div>
+
+
+<div class="checkout-modal" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle"><div class="checkout-panel"><button class="checkout-close" type="button" onclick="closeCheckout()">×</button><h3 id="checkoutTitle">ยืนยันการสั่งซื้อ</h3><div class="checkout-section"><h4>เลือกรูปแบบรับสินค้า</h4><div class="fulfillment-options"><label class="choice-card"><input type="radio" name="fulfillment" value="delivery" checked> จัดส่งถึงบ้าน</label><label class="choice-card"><input type="radio" name="fulfillment" value="pickup"> รับเองที่ร้าน</label></div></div><div id="deliveryForm" class="checkout-section"><h4>ข้อมูลผู้รับสินค้า <span class="required">* จำเป็นต้องกรอก</span></h4><div class="checkout-field"><label for="recipientName">ชื่อผู้รับ <span class="required">*</span></label><input id="recipientName"></div><div class="checkout-field"><label for="recipientPhone">เบอร์โทร <span class="required">*</span></label><input id="recipientPhone" type="tel" maxlength="10"></div><div class="checkout-field"><label for="recipientAddress">ที่อยู่จัดส่ง <span class="required">*</span></label><textarea id="recipientAddress"></textarea></div><h4>วิธีชำระเงิน</h4><div class="payment-options"><label class="choice-card"><input type="radio" name="payment" value="online" checked> โอนออนไลน์</label><label class="choice-card"><input type="radio" name="payment" value="cod"> เก็บเงินปลายทาง</label></div><div id="onlinePayment"><div class="payment-info"><b>สแกน QR พร้อมเพย์</b><div class="qr-box">ใส่ QR<br>ร้านจริง</div><b>เลขบัญชีธนาคาร</b><br>กรุณาใส่เลขบัญชีร้านจริงในส่วนนี้<br>ชื่อบัญชี: กรุณาใส่ชื่อบัญชีร้านจริง</div><div class="checkout-field" style="margin-top:.7rem"><label for="slipFile">แนบรูปสลิปการโอน <span class="required">*</span></label><input id="slipFile" type="file" accept="image/*"><img id="slipPreview" class="slip-preview" hidden></div></div><div id="codNote" class="payment-info" hidden>ชำระเงินกับพนักงานจัดส่งเมื่อได้รับสินค้า</div></div><div id="pickupForm" class="checkout-section" hidden><h4>ข้อมูลผู้มารับสินค้า <span class="required">* จำเป็นต้องกรอก</span></h4><div class="checkout-field"><label for="pickupName">ชื่อผู้รับ <span class="required">*</span></label><input id="pickupName"></div><div class="checkout-field"><label for="pickupPhone">เบอร์โทร <span class="required">*</span></label><input id="pickupPhone" type="tel" maxlength="10"></div><div class="store-hours">🕘 สามารถมารับสินค้าได้เฉพาะในเวลาทำการของร้านเท่านั้น กรุณาติดต่อร้านเพื่อยืนยันเวลารับสินค้า</div></div><div class="checkout-actions"><button type="button" class="btn-primary" style="background:#64748b" onclick="closeCheckout()">ยกเลิก</button><button type="button" class="btn-primary" onclick="submitCheckout()">ยืนยันคำสั่งซื้อ ✓</button></div></div></div>
+
+<div id="customAlertModal" class="modal-overlay" style="display:none;">
+  <div class="modal-card" style="text-align:center;">
+    <h3 id="alertTitle" style="margin-bottom:0.8rem; color:var(--primary-red);">แจ้งเตือน</h3>
+    <p id="alertMessage" style="color:var(--text-dark); margin-bottom:1.5rem; white-space:pre-line;"></p>
+    <button class="btn-primary" onclick="closeAlertModal()">ตกลง</button>
+  </div>
+</div>
+
+<script>
+let alertCallback = null;
+function showAlert(title, message, callback = null) {
+  document.getElementById('alertTitle').innerText = title;
+  document.getElementById('alertMessage').innerText = message;
+  document.getElementById('customAlertModal').style.display = 'flex';
+  alertCallback = callback;
+}
+function closeAlertModal() {
+  document.getElementById('customAlertModal').style.display = 'none';
+  if (alertCallback) { const callback = alertCallback; alertCallback = null; callback(); }
+}
+function readJSON(key, fallback) {
+  try { return JSON.parse(localStorage.getItem(key)) || fallback; }
+  catch (error) { console.error('อ่านข้อมูลไม่สำเร็จ:', key, error); return fallback; }
+}
+
+
+// ลูกเล่นภาพรวมของตะกร้า ไม่เปลี่ยนโครงสร้างข้อมูลเดิม
+const storeLogo=document.getElementById('storeLogo');
+storeLogo.addEventListener('click',()=>{storeLogo.classList.remove('is-bouncing');void storeLogo.offsetWidth;storeLogo.classList.add('is-bouncing');setTimeout(()=>storeLogo.classList.remove('is-bouncing'),500)});
+function updateCartCount(cart){const count=cart.reduce((sum,item)=>sum+(Number(item.quantity)||0),0);document.getElementById('cartCountPill').textContent=`${count} รายการ`;}
+function showCartToast(message){const toast=document.getElementById('cartToast');toast.textContent=message;toast.classList.add('show');clearTimeout(window.cartToastTimer);window.cartToastTimer=setTimeout(()=>toast.classList.remove('show'),1600)}
+
+const currentUser = readJSON('currentUser', null);
+if (!currentUser || !currentUser.username) {
+  showAlert('เกิดข้อผิดพลาด ❌', 'กรุณาเข้าสู่ระบบก่อนครับ', () => { window.location.href = 'login.html'; });
+}
+
+function getCartKey() { return 'cart_' + currentUser.username; }
+function migrateLegacyCart() {
+  if (!currentUser || !currentUser.username) return;
+  const userCartKey = getCartKey();
+  const userCart = readJSON(userCartKey, null);
+  const legacyCart = readJSON('cart', []);
+  if (userCart === null && legacyCart.length) {
+    localStorage.setItem(userCartKey, JSON.stringify(legacyCart));
+    localStorage.removeItem('cart');
+  }
+}
+
+function renderCart() {
+  if (!currentUser || !currentUser.username) return;
+  const cart = readJSON(getCartKey(), []);
+  const cartList = document.getElementById('cartList');
+  const cartSummary = document.getElementById('cartSummary');
+  const defaultImage = 'pic/Logo.webp';
+
+  updateCartCount(cart);
+
+  if (cart.length === 0) {
+    cartList.innerHTML = '<div style="text-align:center; padding:3rem 1rem; color:var(--text-muted);"><p style="font-size:1.1rem; margin-bottom:1rem;">📭 ยังไม่มีสินค้าในตะกร้าของคุณ</p><a href="index.html" class="btn-primary" style="display:inline-block; text-decoration:none; padding:0.5rem 1.2rem;">ไปเลือกซื้อสินค้ากันเลย</a></div>';
+    cartSummary.style.display = 'none';
+    return;
+  }
+
+  cartSummary.style.display = 'block';
+  let total = 0;
+  cartList.innerHTML = cart.map((item, index) => {
+    total += Number(item.price) * Number(item.quantity);
+    const image = item.image || defaultImage;
+    return `
+      <div class="cart-item">
+        <div class="cart-item-info">
+          <img src="${image}" alt="${item.name}" class="cart-item-img" onerror="this.onerror=null;this.src='${defaultImage}'">
+          <div>
+            <h4 style="color:var(--text-dark); font-size:1.05rem; margin-bottom:0.2rem;">${item.name}</h4>
+            <p style="color:var(--primary-red); font-weight:600; font-size:0.95rem;">฿${Number(item.price).toLocaleString('th-TH')} บาท</p>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.8rem; align-items:center;">
+          <div style="display:flex; gap:0.4rem; align-items:center;">
+            <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
+            <span style="font-weight:600; min-width:25px; text-align:center;">${item.quantity}</span>
+            <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+          </div>
+          <button class="delete-btn" onclick="removeItem(${index})">ลบ</button>
+        </div>
+      </div>`;
+  }).join('');
+  document.getElementById('totalPrice').innerText = `฿${total.toLocaleString('th-TH')}`;
+}
+
+function changeQty(index, delta) {
+  const cart = readJSON(getCartKey(), []);
+  if (!cart[index]) return;
+  cart[index].quantity += delta;
+  if (cart[index].quantity <= 0) cart.splice(index, 1);
+  localStorage.setItem(getCartKey(), JSON.stringify(cart));
+  renderCart();
+  showCartToast('อัปเดตจำนวนสินค้าแล้ว');
+}
+function removeItem(index) {
+  const cart = readJSON(getCartKey(), []);
+  cart.splice(index, 1);
+  localStorage.setItem(getCartKey(), JSON.stringify(cart));
+  renderCart();
+  showCartToast('นำสินค้าออกจากตะกร้าแล้ว');
+}
+function checkout() {
+  if (!currentUser || !currentUser.username) return;
+  const cart = readJSON(getCartKey(), []);
+  if (!cart.length) { showAlert('ตะกร้าว่าง', 'กรุณาเพิ่มสินค้าก่อนดำเนินการชำระเงิน'); return; }
+  const user = currentUser;
+  document.getElementById('recipientName').value = user.name || '';
+  document.getElementById('recipientPhone').value = user.phone || '';
+  document.getElementById('recipientAddress').value = user.address || '';
+  document.getElementById('pickupName').value = user.name || '';
+  document.getElementById('pickupPhone').value = user.phone || '';
+  document.getElementById('checkoutModal').classList.add('show');
+}
+function closeCheckout() { document.getElementById('checkoutModal').classList.remove('show'); }
+document.querySelectorAll('input[name="fulfillment"]').forEach(input => input.addEventListener('change', () => {
+  const delivery = document.querySelector('input[name="fulfillment"]:checked').value === 'delivery';
+  document.getElementById('deliveryForm').hidden = !delivery;
+  document.getElementById('pickupForm').hidden = delivery;
+}));
+document.querySelectorAll('input[name="payment"]').forEach(input => input.addEventListener('change', () => {
+  const online = document.querySelector('input[name="payment"]:checked').value === 'online';
+  document.getElementById('onlinePayment').hidden = !online;
+  document.getElementById('codNote').hidden = online;
+}));
+document.getElementById('slipFile').addEventListener('change', event => { const file=event.target.files[0]; if(file){const reader=new FileReader();reader.onload=()=>{const preview=document.getElementById('slipPreview');preview.src=reader.result;preview.hidden=false};reader.readAsDataURL(file)}});
+function submitCheckout() {
+  const fulfillment = document.querySelector('input[name="fulfillment"]:checked').value;
+  const cart = readJSON(getCartKey(), []);
+  let recipient, payment;
+  if (fulfillment === 'delivery') {
+    const name=document.getElementById('recipientName').value.trim(), phone=document.getElementById('recipientPhone').value.trim(), address=document.getElementById('recipientAddress').value.trim();
+    if(!name||!phone||!address){showAlert('ข้อมูลไม่ครบ ❌','กรุณากรอกชื่อผู้รับ เบอร์โทร และที่อยู่ให้ครบถ้วน');return}
+    if(!/^\d{10}$/.test(phone)){showAlert('เบอร์โทรไม่ถูกต้อง ❌','กรุณากรอกเบอร์โทรให้ครบ 10 หลัก');return}
+    const method=document.querySelector('input[name="payment"]:checked').value, slip=document.getElementById('slipFile').files[0];
+    if(method==='online'&&!slip){showAlert('ยังไม่มีสลิป ❌','กรุณาแนบรูปสลิปการโอนเงินก่อนยืนยัน');return}
+    recipient={name,phone,address};payment={method:method==='online'?'โอนออนไลน์':'เก็บเงินปลายทาง',slipName:slip?slip.name:null};
+    if(slip){const reader=new FileReader();reader.onload=()=>finishOrder(cart,fulfillment,recipient,payment,reader.result);reader.readAsDataURL(slip);return}
+  } else {
+    const name=document.getElementById('pickupName').value.trim(),phone=document.getElementById('pickupPhone').value.trim();
+    if(!name||!phone){showAlert('ข้อมูลไม่ครบ ❌','กรุณากรอกชื่อผู้มารับและเบอร์โทรให้ครบถ้วน');return}
+    if(!/^\d{10}$/.test(phone)){showAlert('เบอร์โทรไม่ถูกต้อง ❌','กรุณากรอกเบอร์โทรให้ครบ 10 หลัก');return}
+    recipient={name,phone};payment={method:'รับเองที่ร้าน',slipName:null};
+  }
+  finishOrder(cart,fulfillment,recipient,payment,null);
+}
+function finishOrder(cart,fulfillment,recipient,payment,slipData){
+  const historyKey='history_'+currentUser.username,history=readJSON(historyKey,[]),total=cart.reduce((sum,item)=>sum+(Number(item.price)*Number(item.quantity)),0);
+  history.unshift({orderId:'ORD-'+Math.floor(100000+Math.random()*900000),date:new Date().toLocaleDateString('th-TH'),items:cart,total,status:'สั่งซื้อสำเร็จ',fulfillmentType:fulfillment==='delivery'?'จัดส่งถึงบ้าน':'รับเองที่ร้าน',recipient,payment:{...payment,slipData},customerDetails:{name:currentUser.name,phone:currentUser.phone,address:currentUser.address||'ยังไม่ระบุที่อยู่'}});
+  localStorage.setItem(historyKey,JSON.stringify(history));localStorage.removeItem(getCartKey());closeCheckout();showAlert('สำเร็จ 🎉',fulfillment==='delivery'?'สั่งซื้อและบันทึกข้อมูลจัดส่งแล้ว':'สั่งซื้อสำเร็จ กรุณามารับในเวลาทำการของร้าน',()=>{window.location.href='history.html'});
+}
+
+
+migrateLegacyCart();
+renderCart();
+</script>
+</body>
+</html>
