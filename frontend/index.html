@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>หน้าแรก - ศริณญาพานิช</title>
+<script>
+  // ป้องกันผู้ที่ยังไม่ได้เข้าสู่ระบบไม่ให้เข้าหน้าแรกโดยตรง
+  (function () {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      window.location.replace('login.html');
+    }
+  })();
+</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="ui-enhancements.css">
