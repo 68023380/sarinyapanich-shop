@@ -140,15 +140,19 @@
     catch (error) { console.error('อ่านข้อมูลไม่สำเร็จ:', key, error); return fallback; }
   }
 
-  function loadUserProfileBadge() {
-    let currentUser = readJSON('currentUser', null);
+  function avatarUrl(value) {
+    if (!value || value === 'Logo.webp') return '';
+    if (/^(data:|blob:|https?:\/\/)/i.test(value)) return value;
+    const origin = API_BASE_URL.replace(/\/api\/?$/, '');
+    return `${origin}${value.startsWith('/') ? value : `/${value}`}`;
+  }
+
+  function loadUserProfileBadge(userOverride = null) {
+    let currentUser = userOverride || readJSON('currentUser', null);
     const usersList = readJSON('usersList', []);
-    if (currentUser && currentUser.username) {
+    if (!userOverride && currentUser && currentUser.username) {
       const registeredUser = usersList.find(user => user.username === currentUser.username);
-      if (registeredUser) {
-        currentUser = { ...registeredUser, ...currentUser };
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-      }
+      if (registeredUser) currentUser = { ...registeredUser, ...currentUser };
     }
 
     const avatarContainer = document.getElementById('miniAvatar');
@@ -156,19 +160,38 @@
     if (!avatarContainer || !nameContainer) return;
 
     const displayName = currentUser?.username || 'ผู้ใช้งาน';
-    const avatar = currentUser?.avatar || '';
+    const avatar = avatarUrl(currentUser?.avatar || '');
     nameContainer.textContent = displayName;
     avatarContainer.replaceChildren();
 
-    if (avatar && avatar !== 'Logo.webp') {
+    if (avatar) {
       const image = document.createElement('img');
       image.src = avatar;
       image.alt = 'รูปโปรไฟล์';
+      image.onload = () => image.dataset.loaded = 'true';
+      image.onerror = () => {
+        image.remove();
+        const initial = document.createElement('span');
+        initial.textContent = displayName.charAt(0).toUpperCase();
+        avatarContainer.appendChild(initial);
+      };
       avatarContainer.appendChild(image);
     } else {
       const initial = document.createElement('span');
       initial.textContent = displayName.charAt(0).toUpperCase();
       avatarContainer.appendChild(initial);
+    }
+  }
+
+  async function refreshUserProfileBadge() {
+    if (!localStorage.getItem('accessToken') || typeof getProfile !== 'function') return;
+    try {
+      const latestUser = await getProfile();
+      localStorage.setItem('currentUser', JSON.stringify(latestUser));
+      loadUserProfileBadge(latestUser);
+    } catch (error) {
+      console.warn('โหลดโปรไฟล์ล่าสุดไม่สำเร็จ:', error);
+      loadUserProfileBadge();
     }
   }
 
@@ -295,9 +318,10 @@
   backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
   loadUserProfileBadge();
+  refreshUserProfileBadge();
   loadCategories().then(loadProducts);
   loadCartCount();
-  window.addEventListener('pageshow', () => { loadUserProfileBadge(); loadCartCount(); });
+  window.addEventListener('pageshow', () => { loadUserProfileBadge(); refreshUserProfileBadge(); loadCartCount(); });
   window.addEventListener('storage', event => {
     if (event.key === 'currentUser' || event.key === 'usersList') loadUserProfileBadge();
   });
