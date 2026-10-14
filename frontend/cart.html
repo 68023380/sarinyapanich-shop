@@ -1049,8 +1049,8 @@
             );
           const method = document.querySelector(
               'input[name="payment"]:checked',
-            ).value,
-            slip = document.getElementById("slipFile").files[0];
+            ).value;
+          slip = document.getElementById("slipFile").files[0];
           if (method === "online" && !slip)
             return showAlert(
               "ยังไม่มีสลิป ❌",
