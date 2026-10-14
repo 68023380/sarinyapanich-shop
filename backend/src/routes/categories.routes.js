@@ -49,7 +49,7 @@ router.delete('/:id', requireAuth, requireAdmin, async (req, res, next) => {
   try {
     const category = await query('SELECT slug FROM public.categories WHERE id=$1 AND is_active=true', [req.params.id]);
     if (!category.rows[0]) return res.status(404).json({ error: 'ไม่พบหมวดหมู่' });
-    const used = await query('SELECT 1 FROM public.products WHERE category=$1 LIMIT 1', [category.rows[0].slug]);
+    const used = await query('SELECT 1 FROM public.products WHERE category=$1 AND is_active=true LIMIT 1', [category.rows[0].slug]);
     if (used.rows[0]) return res.status(409).json({ error: 'หมวดหมู่นี้มีสินค้าใช้งานอยู่ จึงยังลบไม่ได้' });
     await query('UPDATE public.categories SET is_active=false WHERE id=$1', [req.params.id]);
     res.status(204).send();

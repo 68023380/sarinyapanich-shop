@@ -555,7 +555,7 @@
     <div class="header-bar">
       <div class="logo-container">
         <img
-          src="pic/Logo.webp"
+          src="Logo.webp"
           alt="โลโก้"
           class="store-logo"
           id="storeLogo"
@@ -1032,7 +1032,7 @@
         const fulfillment = document.querySelector(
           'input[name="fulfillment"]:checked',
         ).value;
-        let address, payment;
+        let address, payment, slip = null;
         if (fulfillment === "delivery") {
           const name = document.getElementById("recipientName").value.trim(),
             phone = document.getElementById("recipientPhone").value.trim();
@@ -1078,6 +1078,13 @@
         }
         try {
           const result = await createOrder(address, payment);
+          if (payment.includes('โอนผ่าน') && slip) {
+            try {
+              await uploadOrderSlip(result.order.id, slip);
+            } catch (slipError) {
+              throw new Error(`สร้างออเดอร์แล้ว แต่ส่งสลิปไม่สำเร็จ: ${slipError.message}`);
+            }
+          }
           closeCheckout();
           showAlert(
             "สำเร็จ 🎉",

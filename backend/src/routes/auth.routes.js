@@ -50,6 +50,9 @@ router.post('/login', validate(z.object({ username: z.string().min(1), password:
   try {
     const result = await query('SELECT * FROM public.users WHERE username=$1', [req.body.username]);
     const user = result.rows[0];
+    if (user && user.is_active === false) {
+      return res.status(403).json({ error: 'บัญชีนี้ถูกปิดใช้งาน กรุณาติดต่อผู้ดูแลระบบ' });
+    }
     if (!user || !bcrypt.compareSync(req.body.password, user.password_hash)) {
       return res.status(401).json({ error: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง' });
     }
@@ -60,7 +63,7 @@ router.post('/login', validate(z.object({ username: z.string().min(1), password:
 router.get('/me', requireAuth, async (req, res, next) => {
   try {
     const result = await query(
-      'SELECT id,username,name,phone,email,role,avatar,address,created_at FROM public.users WHERE id=$1',
+      'SELECT id,username,name,phone,email,role,avatar,address,is_active AS "isActive",created_at FROM public.users WHERE id=$1',
       [req.user.id]
     );
     if (!result.rows[0]) return res.status(404).json({ error: 'ไม่พบข้อมูลผู้ใช้' });
@@ -70,8 +73,27 @@ router.get('/me', requireAuth, async (req, res, next) => {
 
 router.get('/users', requireAuth, requireAdmin, async (req, res, next) => {
   try {
-    const result = await query('SELECT id,username,name,phone,email,role,avatar,address,created_at FROM public.users ORDER BY id DESC');
+    const result = await query('SELECT id,username,name,phone,email,role,avatar,address,is_active AS "isActive",created_at FROM public.users ORDER BY id DESC');
     res.json({ users: result.rows });
+  } catch (error) { next(error); }
+});
+
+router.delete('/users/:id', requireAuth, requireAdmin, async (req, res, next) => {
+  try {
+    const target = await query('SELECT id,role FROM public.users WHERE id=$1', [req.params.id]);
+    if (!target.rows[0]) return res.status(404).json({ error: 'ไม่พบผู้ใช้' });
+    if (Number(target.rows[0].id) === Number(req.user.id)) return res.status(400).json({ error: 'ไม่สามารถปิดใช้งานบัญชีตัวเองได้' });
+    if (target.rows[0].role === 'admin') return res.status(400).json({ error: 'ไม่อนุญาตให้ปิดใช้งานบัญชี Admin จากหน้านี้' });
+    const result = await query('UPDATE public.users SET is_active=false WHERE id=$1 RETURNING id,username,is_active AS "isActive"', [req.params.id]);
+    res.json({ user: result.rows[0], message: 'ปิดใช้งานบัญชีแล้ว' });
+  } catch (error) { next(error); }
+});
+
+router.patch('/users/:id/restore', requireAuth, requireAdmin, async (req, res, next) => {
+  try {
+    const result = await query('UPDATE public.users SET is_active=true WHERE id=$1 RETURNING id,username,is_active AS "isActive"', [req.params.id]);
+    if (!result.rows[0]) return res.status(404).json({ error: 'ไม่พบผู้ใช้' });
+    res.json({ user: result.rows[0], message: 'กู้คืนบัญชีแล้ว' });
   } catch (error) { next(error); }
 });
 

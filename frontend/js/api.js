@@ -113,6 +113,13 @@ async function getOrders() {
   return data.orders || [];
 }
 
+async function uploadOrderSlip(orderId, file) {
+  if (!file) throw new Error('กรุณาเลือกไฟล์สลิป');
+  const form = new FormData();
+  form.append('slip', file);
+  return apiRequest(`/orders/${orderId}/slip`, { method: 'POST', body: form });
+}
+
 // ===== Utility =====
 function formatBaht(value) {
   return `฿${Number(value || 0).toLocaleString('th-TH')}`;

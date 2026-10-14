@@ -1,10 +1,24 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const multer = require('multer');
 const { z } = require('zod');
 const { pool } = require('../db/postgres');
 const { requireAuth, requireAdmin } = require('../middleware/auth');
 const { validate } = require('../middleware/validate');
 const router = express.Router();
 router.use(requireAuth);
+const uploadDir = path.resolve(process.env.UPLOAD_DIR || './uploads');
+fs.mkdirSync(uploadDir, { recursive: true });
+const slipStorage = multer.diskStorage({
+  destination: uploadDir,
+  filename: (req, file, cb) => cb(null, `slip-${Date.now()}-${Math.random().toString(36).slice(2)}${path.extname(file.originalname).toLowerCase()}`)
+});
+const slipUpload = multer({
+  storage: slipStorage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => cb(null, ['image/jpeg', 'image/png', 'image/webp'].includes(file.mimetype))
+});
 
 const orderSchema = z.object({
   address: z.string().min(1).max(500),
@@ -81,6 +95,19 @@ router.post('/', validate(orderSchema), async (req, res, next) => {
     try { await client.query('ROLLBACK'); } catch {}
     next(error);
   } finally { client.release(); }
+});
+
+router.post('/:id/slip', slipUpload.single('slip'), async (req, res, next) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'กรุณาแนบไฟล์สลิป JPG, PNG หรือ WebP ขนาดไม่เกิน 5 MB' });
+    const orderResult = await pool.query('SELECT id,user_id FROM public.orders WHERE id=$1', [req.params.id]);
+    const order = orderResult.rows[0];
+    if (!order) return res.status(404).json({ error: 'ไม่พบคำสั่งซื้อ' });
+    if (req.user.role !== 'admin' && Number(order.user_id) !== Number(req.user.id)) return res.status(403).json({ error: 'ไม่มีสิทธิ์แนบสลิปให้คำสั่งซื้อนี้' });
+    const url = `/uploads/${req.file.filename}`;
+    const result = await pool.query('UPDATE public.orders SET slip_url=$1,slip_uploaded_at=now() WHERE id=$2 RETURNING *', [url, req.params.id]);
+    res.status(201).json({ order: result.rows[0], url });
+  } catch (error) { next(error); }
 });
 
 router.patch('/:id/status', requireAdmin, validate(z.object({ status: z.string().min(1).max(60) })), async (req, res, next) => {
