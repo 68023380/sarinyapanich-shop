@@ -44,13 +44,63 @@
   .owner-action-box > div { display: flex; }
   .owner-action-box button { flex: 1; }
 }
+/* ลูกเล่นโลโก้ */
+.store-logo {
+  transition: transform 0.3s, box-shadow 0.3s;
+  animation: floatLogo 3.5s ease-in-out infinite;
+  cursor: pointer;
+}
+.store-logo:hover,
+.store-logo.is-bouncing {
+  transform: rotate(-8deg) scale(1.12);
+  box-shadow: 0 6px 18px rgba(198, 40, 40, 0.25);
+}
+@keyframes floatLogo {
+  50% { transform: translateY(-3px); }
+}
+
+/* ชื่อร้านไล่สีเคลื่อนไหว */
+.brand-title {
+  background: linear-gradient(90deg, #b71c1c, #e09b22, #b71c1c);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShine 4s linear infinite;
+}
+@keyframes textShine {
+  to { background-position: 200% center; }
+}
+
+/* ดาวกะพริบมุมขวาของ header */
+.header-bar { position: relative; overflow: hidden; }
+.header-bar::after {
+  content: "✦";
+  position: absolute;
+  right: 24px;
+  top: 12px;
+  color: #e4a11b;
+  font-size: 1.4rem;
+  animation: twinkle 1.8s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes twinkle {
+  50% { transform: scale(1.45) rotate(18deg); opacity: 0.45; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 </style>
 </head>
 <body>
 
 <div class="header-bar">
   <div class="logo-container">
-    <img src="pic/Logo.webp" alt="โลโก้" class="store-logo" onerror="this.onerror=null;this.src='Logo.webp';">
+    <img src="pic/Logo.webp" alt="โลโก้" class="store-logo" id="storeLogo" onerror="this.onerror=null;this.src='Logo.webp';">
     <h1 style="color:var(--primary-red); font-size:1.3rem; margin:0; white-space:nowrap;">ศริณญาพานิช 🛒</h1>
   </div>
   <nav class="header-actions" aria-label="เมนูหลัก">
@@ -146,6 +196,10 @@ async function updateStatus(orderId, status) {
 }
 if (requireLogin()) loadHistory();
 setInterval(() => { if (isLoggedIn() && document.visibilityState === 'visible') loadHistory(); }, 5000);
+document.getElementById('storeLogo').addEventListener('click', e => {
+  e.currentTarget.classList.add('is-bouncing');
+  setTimeout(() => e.currentTarget.classList.remove('is-bouncing'), 600);
+});
 </script>
 <script src="ui-enhancements.js"></script>
 </body>
