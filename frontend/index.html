@@ -367,7 +367,7 @@
   window.addEventListener('scroll', () => backTop.classList.toggle('visible', window.scrollY > 320));
   backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    
 
   // โลโก้เด้งตอนคลิก
   document.getElementById('storeLogo').addEventListener('click', e => {
@@ -379,11 +379,8 @@
   refreshUserProfileBadge();
   loadCategories().then(loadProducts);
   loadCartCount();
+
   
-  loadUserProfileBadge();
-  refreshUserProfileBadge();
-  loadCategories().then(loadProducts);
-  loadCartCount();
   window.addEventListener('pageshow', () => { loadUserProfileBadge(); refreshUserProfileBadge(); loadCartCount(); });
   window.addEventListener('storage', event => {
     if (event.key === 'currentUser' || event.key === 'usersList') loadUserProfileBadge();
