@@ -273,7 +273,7 @@
       const statuses = ['สั่งซื้อสำเร็จ','กำลังเตรียมพัสดุ','กำลังจัดส่งสินค้า','จัดส่งสำเร็จ'];
       function escapeHTML(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
       function showToast(message){$('toast').textContent=message;$('toast').classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2200);}
-      function imageUrl(value){if(!value)return '';return value.startsWith('http')?value:`${API_BASE_URL.replace('/api','')}${value}`;}
+      function imageUrl(value){if(!value)return '';if(/^(data:|blob:|https?:\/\/)/i.test(value))return value;return `${API_BASE_URL.replace('/api','')}${value.startsWith('/')?value:`/${value}`}`;}
       async function adminRequest(path, options = {}) { const token = localStorage.getItem('adminAccessToken'); const headers = { ...(options.body instanceof FormData ? {} : {'Content-Type':'application/json'}), ...(options.headers || {}) }; if (token) headers.Authorization = `Bearer ${token}`; const response = await fetch(`${API_BASE_URL}${path}`, {...options, headers}); const data = await response.json().catch(() => ({})); if (!response.ok) throw new Error(data.error || `เรียก API ไม่สำเร็จ (${response.status})`); return data; }
       function statusOptions(current){return statuses.map(s=>`<option value="${s}" ${s===current?'selected':''}>${s}</option>`).join('');}
       function requireAdminSession(){if(!localStorage.getItem('adminAccessToken')){ $('adminLogin').style.display='grid'; $('adminShell').style.display='none'; return false; } return true;}

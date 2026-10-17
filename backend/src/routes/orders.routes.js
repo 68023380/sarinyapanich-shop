@@ -104,8 +104,12 @@ router.post('/:id/slip', slipUpload.single('slip'), async (req, res, next) => {
     const order = orderResult.rows[0];
     if (!order) return res.status(404).json({ error: 'ไม่พบคำสั่งซื้อ' });
     if (req.user.role !== 'admin' && Number(order.user_id) !== Number(req.user.id)) return res.status(403).json({ error: 'ไม่มีสิทธิ์แนบสลิปให้คำสั่งซื้อนี้' });
-    const url = `/uploads/${req.file.filename}`;
+    // Render Web Service ใช้ดิสก์ชั่วคราว ไฟล์ใน /uploads อาจหายหลัง Restart/Deploy
+    // จึงเก็บสลิปเป็น Data URL ใน PostgreSQL เพื่อให้เปิดดูได้ถาวร
+    const fileBuffer = fs.readFileSync(req.file.path);
+    const url = `data:${req.file.mimetype};base64,${fileBuffer.toString('base64')}`;
     const result = await pool.query('UPDATE public.orders SET slip_url=$1,slip_uploaded_at=now() WHERE id=$2 RETURNING *', [url, req.params.id]);
+    try { fs.unlinkSync(req.file.path); } catch {}
     res.status(201).json({ order: result.rows[0], url });
   } catch (error) { next(error); }
 });
